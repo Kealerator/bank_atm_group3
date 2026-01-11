@@ -127,6 +127,37 @@ LOCK TABLES `tili tapahtuma` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tilitapahtumat`
+--
+
+DROP TABLE IF EXISTS `tilitapahtumat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tilitapahtumat` (
+  `idTili_Tapahtumat` int NOT NULL AUTO_INCREMENT,
+  `Tapahtumat` enum('Otto','Pano') NOT NULL,
+  `Summa` decimal(10,2) NOT NULL,
+  `Ajankohta` timestamp(6) NOT NULL,
+  `idKortti` int NOT NULL,
+  `idTili` int NOT NULL,
+  PRIMARY KEY (`idTili_Tapahtumat`),
+  KEY `fk_Tilitapahtumat_Kortti1_idx` (`idKortti`),
+  KEY `fk_Tilitapahtumat_Tili1_idx` (`idTili`),
+  CONSTRAINT `fk_Tilitapahtumat_Kortti1` FOREIGN KEY (`idKortti`) REFERENCES `kortti` (`idKortti`),
+  CONSTRAINT `fk_Tilitapahtumat_Tili1` FOREIGN KEY (`idTili`) REFERENCES `tili` (`idTili`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tilitapahtumat`
+--
+
+LOCK TABLES `tilitapahtumat` WRITE;
+/*!40000 ALTER TABLE `tilitapahtumat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tilitapahtumat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping events for database 'bank'
 --
 
@@ -143,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-01-11 15:10:42
+-- Dump completed on 2026-01-11 17:02:41
