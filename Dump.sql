@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: bank
+-- Host: 127.0.0.1    Database: bank_automat
 -- ------------------------------------------------------
 -- Server version	8.2.0
 
@@ -27,18 +27,10 @@ CREATE TABLE `asiakas` (
   `Etunimi` varchar(45) NOT NULL,
   `Sukunimi` varchar(45) NOT NULL,
   `Osoite` varchar(45) NOT NULL,
+  `Puhelinnumero` varchar(45) NOT NULL,
   PRIMARY KEY (`idAsiakas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `asiakas`
---
-
-LOCK TABLES `asiakas` WRITE;
-/*!40000 ALTER TABLE `asiakas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `asiakas` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `kortti`
@@ -48,25 +40,33 @@ DROP TABLE IF EXISTS `kortti`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `kortti` (
-  `idKortti` int NOT NULL AUTO_INCREMENT,
-  `PIN` varchar(45) NOT NULL,
   `Tunnistekoodi` varchar(45) NOT NULL,
+  `PIN` varchar(60) NOT NULL,
   `Exp_date` date NOT NULL,
   `idAsiakas` int NOT NULL,
-  PRIMARY KEY (`idKortti`),
-  KEY `fk_Kortti_Asiakas1_idx` (`idAsiakas`),
-  CONSTRAINT `fk_Kortti_Asiakas1` FOREIGN KEY (`idAsiakas`) REFERENCES `asiakas` (`idAsiakas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`Tunnistekoodi`),
+  KEY `fk_Kortti_Asiakas_idx` (`idAsiakas`),
+  CONSTRAINT `fk_Kortti_Asiakas` FOREIGN KEY (`idAsiakas`) REFERENCES `asiakas` (`idAsiakas`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `kortti`
+-- Table structure for table `kortti_tili`
 --
 
-LOCK TABLES `kortti` WRITE;
-/*!40000 ALTER TABLE `kortti` DISABLE KEYS */;
-/*!40000 ALTER TABLE `kortti` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `kortti_tili`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `kortti_tili` (
+  `Tunnistekoodi` varchar(45) NOT NULL,
+  `idTili` int NOT NULL,
+  PRIMARY KEY (`Tunnistekoodi`,`idTili`),
+  KEY `fk_Kortti_Tili_Kortti1_idx` (`Tunnistekoodi`),
+  KEY `fk_Kortti_Tili_Tili1_idx` (`idTili`),
+  CONSTRAINT `fk_Kortti_Tili_Kortti1` FOREIGN KEY (`Tunnistekoodi`) REFERENCES `kortti` (`Tunnistekoodi`),
+  CONSTRAINT `fk_Kortti_Tili_Tili1` FOREIGN KEY (`idTili`) REFERENCES `tili` (`idTili`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `tili`
@@ -81,50 +81,10 @@ CREATE TABLE `tili` (
   `Saldo` decimal(10,2) NOT NULL,
   `idAsiakas` int NOT NULL,
   PRIMARY KEY (`idTili`),
-  KEY `fk_Tili_Asiakas_idx` (`idAsiakas`),
-  CONSTRAINT `fk_Tili_Asiakas` FOREIGN KEY (`idAsiakas`) REFERENCES `asiakas` (`idAsiakas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_Tili_Asiakas1_idx` (`idAsiakas`),
+  CONSTRAINT `fk_Tili_Asiakas1` FOREIGN KEY (`idAsiakas`) REFERENCES `asiakas` (`idAsiakas`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tili`
---
-
-LOCK TABLES `tili` WRITE;
-/*!40000 ALTER TABLE `tili` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tili` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tili tapahtuma`
---
-
-DROP TABLE IF EXISTS `tili tapahtuma`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tili tapahtuma` (
-  `idTili Tapahtuma` int NOT NULL AUTO_INCREMENT,
-  `Otto` decimal(10,2) DEFAULT NULL,
-  `Pano` decimal(10,2) DEFAULT NULL,
-  `Ajankohta` timestamp(6) NOT NULL,
-  `idKortti` int NOT NULL,
-  `idTili` int NOT NULL,
-  PRIMARY KEY (`idTili Tapahtuma`),
-  KEY `fk_Tili Tapahtuma_Kortti1_idx` (`idKortti`),
-  KEY `fk_Tili Tapahtuma_Tili1_idx` (`idTili`),
-  CONSTRAINT `fk_Tili Tapahtuma_Kortti1` FOREIGN KEY (`idKortti`) REFERENCES `kortti` (`idKortti`),
-  CONSTRAINT `fk_Tili Tapahtuma_Tili1` FOREIGN KEY (`idTili`) REFERENCES `tili` (`idTili`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tili tapahtuma`
---
-
-LOCK TABLES `tili tapahtuma` WRITE;
-/*!40000 ALTER TABLE `tili tapahtuma` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tili tapahtuma` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tilitapahtumat`
@@ -134,36 +94,16 @@ DROP TABLE IF EXISTS `tilitapahtumat`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tilitapahtumat` (
-  `idTili_Tapahtumat` int NOT NULL AUTO_INCREMENT,
+  `idTilitapahtumat` int NOT NULL AUTO_INCREMENT,
   `Tapahtumat` enum('Otto','Pano') NOT NULL,
   `Summa` decimal(10,2) NOT NULL,
   `Ajankohta` timestamp(6) NOT NULL,
-  `idKortti` int NOT NULL,
   `idTili` int NOT NULL,
-  PRIMARY KEY (`idTili_Tapahtumat`),
-  KEY `fk_Tilitapahtumat_Kortti1_idx` (`idKortti`),
+  PRIMARY KEY (`idTilitapahtumat`),
   KEY `fk_Tilitapahtumat_Tili1_idx` (`idTili`),
-  CONSTRAINT `fk_Tilitapahtumat_Kortti1` FOREIGN KEY (`idKortti`) REFERENCES `kortti` (`idKortti`),
   CONSTRAINT `fk_Tilitapahtumat_Tili1` FOREIGN KEY (`idTili`) REFERENCES `tili` (`idTili`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tilitapahtumat`
---
-
-LOCK TABLES `tilitapahtumat` WRITE;
-/*!40000 ALTER TABLE `tilitapahtumat` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tilitapahtumat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping events for database 'bank'
---
-
---
--- Dumping routines for database 'bank'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -174,4 +114,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-01-11 17:02:41
+-- Dump completed on 2026-01-16  0:08:34
