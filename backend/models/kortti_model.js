@@ -2,12 +2,12 @@ const db = require('../database');
 
 const kortti = {
   getAll: function(callback) {
-    return db.query('select * from kortti', callback);
+  return db.query('select * from kortti', callback);
   },
     
 
     getOne: function(tunnistekoodi, callback) {
-        return db.query('select * from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
+    return db.query('select * from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
   },
 
 
@@ -18,8 +18,8 @@ const kortti = {
   },
   
 
-        delete: function(tunnistekoodi, callback) {
-        return db.query('delete from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
+      delete: function(tunnistekoodi, callback) {
+      return db.query('delete from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
   },
 
 
