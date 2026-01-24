@@ -33,4 +33,14 @@ function genHash(input, callback) {
     });
 }
 
-module.exports = { genHash };
+function compareHash(input, hash, callback) {
+    bcrypt.compare(input, hash, (err, result) => {
+        if (err) {
+            return callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+}
+
+module.exports = { genHash, compareHash };
