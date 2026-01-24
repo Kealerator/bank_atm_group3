@@ -1,32 +1,54 @@
 const db = require('../database');
+const hasher = require('./hash');
 
 const kortti = {
-  getAll: function(callback) {
+  getAll: function (callback) {
     return db.query('select * from kortti', callback);
   },
-    
 
-    getOne: function(tunnistekoodi, callback) {
-        return db.query('select * from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
+
+  getOne: function (tunnistekoodi, callback) {
+    return db.query('select * from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
   },
 
 
-    add: function(kortti, callback) {
-        return db.query(
+  add: function (kortti, callback) {
+
+    hasher.genHash(kortti.pin, function (err, hash) {
+      if (err) {
+        return callback(err);
+      }
+
+      kortti.pin = hash;
+
+
+      return db.query(
         'insert into kortti (tunnistekoodi,pin,exp_date, idasiakas) values(?,?,?, ?)',
         [kortti.tunnistekoodi, kortti.pin, kortti.exp_date, kortti.idasiakas], callback);
-  },
-  
-
-        delete: function(tunnistekoodi, callback) {
-        return db.query('delete from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
+    });
   },
 
 
-    update: function(tunnistekoodi, kortti, callback) {
-        return db.query(
+  delete: function (tunnistekoodi, callback) {
+    return db.query('delete from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
+  },
+
+
+  update: function (tunnistekoodi, kortti, callback) {
+
+    hasher.genHash(kortti.pin, function (err, hash){
+      if (err) {
+        return callback(err);
+      }
+
+      kortti.pin = hash;
+
+      return db.query(
         'update kortti set pin=?, exp_date=? where tunnistekoodi=?',
         [kortti.pin, kortti.exp_date, tunnistekoodi], callback);
+    });
+
+
   }
 };
 module.exports = kortti;
