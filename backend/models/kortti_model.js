@@ -1,5 +1,5 @@
 const db = require('../database');
-const hasher = require('./hash');
+const bcrypt = require('bcryptjs');
 
 const kortti = {
   getAll: function (callback) {
@@ -14,17 +14,11 @@ const kortti = {
 
   add: function (kortti, callback) {
 
-    hasher.genHash(kortti.pin, function (err, hash) {
-      if (err) {
-        return callback(err);
-      }
 
-      kortti.pin = hash;
-
-
+    bcrypt.hash(kortti.pin, 10, function(err, hashedPin) {
       return db.query(
         'insert into kortti (tunnistekoodi,pin,exp_date, idasiakas) values(?,?,?, ?)',
-        [kortti.tunnistekoodi, kortti.pin, kortti.exp_date, kortti.idasiakas], callback);
+        [kortti.tunnistekoodi, hashedPin, kortti.exp_date, kortti.idasiakas], callback);
     });
   },
 
@@ -36,19 +30,15 @@ const kortti = {
 
   update: function (tunnistekoodi, kortti, callback) {
 
-    hasher.genHash(kortti.pin, function (err, hash){
-      if (err) {
-        return callback(err);
-      }
-
-      kortti.pin = hash;
-
+    bcrypt.hash(kortti.pin, 10, function(err, hashedPin) {
       return db.query(
         'update kortti set pin=?, exp_date=? where tunnistekoodi=?',
-        [kortti.pin, kortti.exp_date, tunnistekoodi], callback);
+        [hashedPin, kortti.exp_date, tunnistekoodi], callback);
     });
+  },
 
-
+  getPin: function(tunnistekoodi, callback) {
+    return db.query('select pin from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
   }
 };
 module.exports = kortti;
