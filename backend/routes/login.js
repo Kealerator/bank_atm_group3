@@ -27,22 +27,22 @@ router.post('/', function(request, response){
                             });
                         }
                         else {
-                            console.log("Väärä salasana");
-                            response.json({"message":"tunnus ja salasana eivät täsmää"});       
+                            console.log("Väärä PIN");
+                            response.json({"message":"Tunnistekoodi ja PIN eivät täsmää"});       
                         }
 
                     })
                 }
                 else {
-                    console.log("Tunnusta ei ole");
-                    response.json({"message":"tunnus ja salasana eivät täsmää"});                 
+                    console.log("Tunnistekoodia ei ole");
+                    response.json({"message":"Tunnistekoodi ja PIN eivät täsmää"});                 
                 }
             }
         })
     }
     else {
-        console.log("Tunnus tai salasana puuttuu");
-        response.json({"message":"tunnus ja salasana eivät täsmää"});
+        console.log("Tunnistekoodi tai PIN puuttuu");
+        response.json({"message":"Tunnistekoodi ja PIN eivät täsmää"});
     }
 });
 
