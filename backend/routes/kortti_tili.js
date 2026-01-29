@@ -25,6 +25,17 @@ router.get('/:tunnistekoodi/:idtili',
         })
     });
 
+  router.get('/:tunnistekoodi',
+    function (request, response) {
+        kortti_tili.getIdByTunnistekoodi(request.params.tunnistekoodi, function (err, dbResult) {
+            if (err) {
+                response.json(err);
+            } else {
+                response.json(dbResult); 
+            }
+        })
+    });
+
 
 router.post('/', 
 function(request, response) {
