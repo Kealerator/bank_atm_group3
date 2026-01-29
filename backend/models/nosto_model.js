@@ -5,7 +5,7 @@ const nosto = {
         return db.query('select saldo from tili where idtili=?', [idtili], callback);
     },
 
-    paivitaSaldo: function(uusiSaldo, idtili, callback) {
+    paivitaSaldo: function(idtili, uusiSaldo, callback) {
         return db.query('update tili set saldo=? where idtili=?', [idtili, uusiSaldo], callback);
     },
 
