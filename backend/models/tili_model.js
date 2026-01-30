@@ -8,6 +8,7 @@ const tili = {
     getOne: function(id, callback) {
         return db.query('select * from tili where idtili=?', [id], callback);
     },
+
     
     add: function(tili, callback) {
         return db.query(

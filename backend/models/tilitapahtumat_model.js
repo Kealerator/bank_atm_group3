@@ -29,7 +29,7 @@ const tilitapahtumat = {
     },
 
     getTapahtumat: function(id, callback){
-      return db.query('select tapahtumat, summa, ajankohta from tilitapahtumat where idtili = ?'+
+      return db.query('select tapahtumat, summa, date_format(ajankohta, "%d.%m.%Y, %H:%i:%s") as ajankohta from tilitapahtumat where idtili = ?'+
         'order by ajankohta desc limit 10', [id], callback
        );
     }
