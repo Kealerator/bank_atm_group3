@@ -9,6 +9,10 @@ const kortti_tili = {
     return db.query('select * from kortti_tili where tunnistekoodi=? and idtili=?', [tunnistekoodi, idtili], callback);
   },
 
+  getIdByTunnistekoodi: function(tunnistekoodi, callback){
+    return db.query('select * from kortti_tili where tunnistekoodi=?', [tunnistekoodi], callback);
+  },
+
   add: function(kortti_tili, callback) {
     return db.query(
       'insert into kortti_tili (tunnistekoodi, idtili) values(?,?)',
