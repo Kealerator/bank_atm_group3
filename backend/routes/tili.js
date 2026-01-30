@@ -61,8 +61,8 @@ function(request, response) {
   });
 });
 
-router.get('/Naytasaldo/:id', function(request, response){
-  tili.getNaytasaldo(request.params.id, function(err,dbResult){
+router.get('/saldo/:id', function(request, response){
+  tili.getSaldo(request.params.id, function(err,dbResult){
     if (err) {
       response.json(err);
     } else {

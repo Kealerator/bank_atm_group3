@@ -61,4 +61,14 @@ function(request, response) {
   });
 });
 
+
+router.get('/tapahtumat/:id', function(request,response){
+  tilitapahtumat.getTapahtumat(request.params.id, function(err, dbResult){
+    if(err){
+      response.json(err);
+    }else {
+      response.json(dbResult);
+    }
+  });
+});
 module.exports = router;

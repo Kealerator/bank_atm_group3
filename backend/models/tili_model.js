@@ -26,12 +26,11 @@ const tili = {
       [tili.tilinumero, tili.saldo, id], callback);
   },
 
-  getNaytasaldo: function(id, callback){
-    return db.query('select asiakas.etunimi, asiakas.sukunimi, tili.saldo '+
-        'from tili '+'join asiakas on tili.idasiakas = asiakas.idasiakas '+
-        'where tili.idtili = ?', [id], callback
-        //Hakee nyt idtili mukaan saldon.
-        //Vaihtaa voi esim tilinumeron mukaan
+  getSaldo: function(id, callback){
+    return db.query('select asiakas.etunimi, asiakas.sukunimi, tili.saldo from tili '+
+    'join asiakas on tili.idasiakas = asiakas.idasiakas where tili.idtili = ?', [id], callback
+    //Hakee nyt idtili mukaan saldon.
+    //Vaihtaa voi esim tilinumeron mukaan
     );
   }
 
