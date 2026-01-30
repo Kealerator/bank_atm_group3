@@ -25,6 +25,15 @@ const tili = {
         return db.query(
       'update tili set tilinumero=?, saldo=? where idtili=?',
       [tili.tilinumero, tili.saldo, id], callback);
+  },
+
+  getSaldo: function(id, callback){
+    return db.query('select asiakas.etunimi, asiakas.sukunimi, tili.saldo from tili '+
+    'join asiakas on tili.idasiakas = asiakas.idasiakas where tili.idtili = ?', [id], callback
+    //Hakee nyt idtili mukaan saldon.
+    //Vaihtaa voi esim tilinumeron mukaan
+    );
   }
+
 };
 module.exports = tili;

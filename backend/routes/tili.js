@@ -61,4 +61,14 @@ function(request, response) {
   });
 });
 
+router.get('/saldo/:id', function(request, response){
+  tili.getSaldo(request.params.id, function(err,dbResult){
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
+
 module.exports = router;

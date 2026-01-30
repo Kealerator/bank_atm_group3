@@ -26,6 +26,12 @@ const tilitapahtumat = {
     return db.query(
       'update tilitapahtumat set tapahtumat=?, summa=?, ajankohta=? where idtilitapahtumat=?',
       [tilitapahtumat.tapahtumat, tilitapahtumat.summa, tilitapahtumat.ajankohta, id], callback);
+    },
+
+    getTapahtumat: function(id, callback){
+      return db.query('select tapahtumat, summa, ajankohta from tilitapahtumat where idtili = ?'+
+        'order by ajankohta desc limit 10', [id], callback
+       );
     }
 };
 module.exports = tilitapahtumat;
