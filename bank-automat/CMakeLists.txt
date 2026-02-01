@@ -25,6 +25,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         loginwindow.h loginwindow.cpp loginwindow.ui
         pinwindow.h pinwindow.cpp pinwindow.ui
+        environment.h environment.cpp
+
+
 
 
     )

@@ -22,6 +22,12 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::FocusPolicy::StrongFocus</enum>
+   </property>
+   <property name="frame">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="labelTunnistekoodi">
    <property name="geometry">
@@ -36,7 +42,7 @@
     <string>Tunnistekoodi:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnToPIN">
+  <widget class="QPushButton" name="btnContinue">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -47,6 +53,22 @@
    </property>
    <property name="text">
     <string>Jatka</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelErrorMsg">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>90</y>
+     <width>171</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
  </widget>

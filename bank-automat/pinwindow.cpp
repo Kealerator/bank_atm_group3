@@ -11,6 +11,8 @@ PINWindow::PINWindow(QWidget *parent)
 
 
     timerId = startTimer(1000);
+    ui->linePIN->setFocus();
+
 }
 
 PINWindow::~PINWindow()
@@ -22,7 +24,8 @@ PINWindow::~PINWindow()
 void PINWindow::btnSignInSlot()
 {
     if(ui->linePIN->text() == ""){
-        qDebug() << "PIN tyhjä!";
+        ui->labelError->setText("PIN ei voi olla tyhjä!");
+        ui->linePIN->setFocus();
     }else{
         this->hide();
     }
@@ -30,12 +33,12 @@ void PINWindow::btnSignInSlot()
 
 void PINWindow::timerEvent(QTimerEvent *event)
 {
+
     if(this->counter == 0){
-        qDebug() << "Aika loppui!";
         this->close();
     } else {
         this->counter -= 1;
-        qDebug() << this->counter;
+        ui->labelCount->setText(QString("Palataan alkuvalikkoon %1 sekunnin kuluttua...").arg(this->counter));
     }
 
 }
