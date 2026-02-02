@@ -18,7 +18,7 @@ public:
 private:
     Ui::PINWindow *ui;
     int timerId;
-    int counter = 11;
+    int counter = 10;
 
 private slots:
     void btnSignInSlot();

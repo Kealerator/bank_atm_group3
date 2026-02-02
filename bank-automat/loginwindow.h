@@ -3,6 +3,14 @@
 
 #include <QDialog>
 
+
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+
 namespace Ui {
 class LoginWindow;
 }
@@ -15,11 +23,14 @@ public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
 
+
 private slots:
-    void btnPINSlot();
+    void btnContinueSlot();
 
 private:
     Ui::LoginWindow *ui;
+    QNetworkAccessManager *manager;
+    QNetworkReply *reply;
 };
 
 #endif // LOGINWINDOW_H
