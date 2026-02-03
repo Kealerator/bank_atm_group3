@@ -29,7 +29,7 @@ CREATE TABLE `asiakas` (
   `Osoite` varchar(45) NOT NULL,
   `Puhelinnumero` varchar(45) NOT NULL,
   PRIMARY KEY (`idAsiakas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,11 +79,12 @@ CREATE TABLE `tili` (
   `idTili` int NOT NULL AUTO_INCREMENT,
   `Tilinumero` varchar(45) NOT NULL,
   `Saldo` decimal(10,2) NOT NULL,
+  `luottoraja` decimal(10,2) NOT NULL,
   `idAsiakas` int NOT NULL,
   PRIMARY KEY (`idTili`),
   KEY `fk_Tili_Asiakas1_idx` (`idAsiakas`),
   CONSTRAINT `fk_Tili_Asiakas1` FOREIGN KEY (`idAsiakas`) REFERENCES `asiakas` (`idAsiakas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +103,7 @@ CREATE TABLE `tilitapahtumat` (
   PRIMARY KEY (`idTilitapahtumat`),
   KEY `fk_Tilitapahtumat_Tili1_idx` (`idTili`),
   CONSTRAINT `fk_Tilitapahtumat_Tili1` FOREIGN KEY (`idTili`) REFERENCES `tili` (`idTili`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -114,4 +115,4 @@ CREATE TABLE `tilitapahtumat` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-01-16  0:08:34
+-- Dump completed on 2026-02-03 11:07:10
