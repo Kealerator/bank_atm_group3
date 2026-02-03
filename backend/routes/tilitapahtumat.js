@@ -71,4 +71,17 @@ router.get('/tapahtumat/:id', function(request,response){
     }
   });
 });
+
+router.get('/:tilitapahtumatbytili/:id', 
+function(request, response) {
+  tilitapahtumat.getTilitapahtumaByTili(request.params.id, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+  
+});
+
 module.exports = router;
