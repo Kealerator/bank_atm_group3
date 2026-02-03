@@ -32,6 +32,10 @@ const tilitapahtumat = {
       return db.query('select tapahtumat, summa, ajankohta from tilitapahtumat where idtili = ?'+
         'order by ajankohta desc limit 10', [id], callback
        );
-    }
+    },
+    
+  getTilitapahtumaByTili(id, callback){
+    return db.query('SELECT tili.idtili, tili.tilinumero, tilitapahtumat.tapahtumat, tilitapahtumat.summa, DATE_FORMAT(tilitapahtumat.ajankohta, "%d.%c.%Y, %H:%i:%s") as ajankohta FROM tili inner join tilitapahtumat ON tili.idtili=tilitapahtumat.idtili where tili.idtili=?'+'order by ajankohta desc',[id],callback);
+  }
 };
 module.exports = tilitapahtumat;
