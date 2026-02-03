@@ -28,15 +28,17 @@ router.post('/nosto/:idtili', function(request, response) {
         }
 
         const saldo = parseFloat(result[0].saldo);
+        const luottoraja = parseFloat(result[0].luottoraja);
+        const kate = saldo + luottoraja;
+        
+        if (summa > kate) {
+            console.log("Tilillä ei ole tarpeeksi katetta");
+            response.json({ message: "Tilillä ei ole tarpeeksi katetta" });
+            return;
+        }
     
-    // Tarkistetaan onko tilillä tarpeeksi saldoa
-            if (saldo < summa) {
-                console.log("Tilillä ei ole tarpeeksi rahaa");
-                response.json({ message: "Tilillä ei ole tarpeeksi rahaa" });
-                return;
-            }
+        const uusiSaldo = saldo - summa;
 
-    const uusiSaldo = saldo - summa;
 
     // Päivitetään saldo
     nosto.paivitaSaldo(idtili, uusiSaldo, function(err) {
