@@ -2,11 +2,11 @@ const db = require('../database');
 
 const nosto = {
     haeSaldo: function(idtili, callback) {
-        return db.query('select saldo from tili where idtili=?', [idtili], callback);
+        return db.query('select saldo, luottoraja from tili where idtili=?', [idtili], callback);
     },
 
     paivitaSaldo: function(idtili, uusiSaldo, callback) {
-        return db.query('update tili set saldo=? where idtili=?', [idtili, uusiSaldo], callback);
+        return db.query('update tili set saldo=? where idtili=?', [uusiSaldo, idtili], callback);
     },
 
     lisaaTapahtuma: function(idtili, summa, callback) {
