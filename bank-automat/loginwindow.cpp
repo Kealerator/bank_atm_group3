@@ -14,10 +14,12 @@ LoginWindow::LoginWindow(QWidget *parent)
     connect(ui->btnContinue, &QPushButton::clicked, this, &LoginWindow::btnContinueSlot);
 
 
+    qDebug() << "LoginWindow -olio luotu.";
 }
 
 LoginWindow::~LoginWindow()
 {
+    qDebug() << "LoginWindow -olio tuhottu.";
     delete ui;
 }
 
@@ -29,9 +31,11 @@ void LoginWindow::btnContinueSlot()
     }else{
 
         ui->labelErrorMsg->setText("");
+        PINWindow *pinQuery = new PINWindow(this);
+        pinQuery->setTunniste(ui->lineTunnistekoodi->text());
         this->hide();
-        PINWindow pinQuery;
-        pinQuery.exec();
+        pinQuery->exec();
+
     }
 
 

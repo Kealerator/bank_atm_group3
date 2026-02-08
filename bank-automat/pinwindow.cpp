@@ -1,6 +1,7 @@
 #include "pinwindow.h"
 #include "ui_pinwindow.h"
 #include "QDebug"
+#include <QMessageBox>
 
 PINWindow::PINWindow(QWidget *parent)
     : QDialog(parent)
@@ -9,7 +10,9 @@ PINWindow::PINWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->btnSignIn, &QPushButton::clicked, this, &PINWindow::btnSignInSlot);
 
+    qDebug() << "PINWindow -olio luotu.";
 
+    manager = new QNetworkAccessManager(this);
     timerId = startTimer(1000);
     ui->linePIN->setFocus();
 
@@ -17,8 +20,29 @@ PINWindow::PINWindow(QWidget *parent)
 
 PINWindow::~PINWindow()
 {
+    qDebug() << "PINWindow -olio luotu.";
     killTimer(timerId);
     delete ui;
+}
+
+QString PINWindow::getTunniste() const
+{
+    return tunniste;
+}
+
+void PINWindow::setTunniste(const QString &newTunniste)
+{
+    tunniste = newTunniste;
+}
+
+QString PINWindow::getPin() const
+{
+    return pin;
+}
+
+void PINWindow::setPin(const QString &newPin)
+{
+    pin = newPin;
 }
 
 void PINWindow::btnSignInSlot()
@@ -27,8 +51,68 @@ void PINWindow::btnSignInSlot()
         ui->labelError->setText("PIN ei voi olla tyhjä!");
         ui->linePIN->setFocus();
     }else{
-        this->hide();
+        this->setPin(ui->linePIN->text());
+
+        QString url = Environment::base_url()+"login";
+        QNetworkRequest request(url);
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        QJsonObject jObject;
+
+        jObject.insert("tunnistekoodi", this->getTunniste());
+        jObject.insert("pin", this->getPin());
+
+        QJsonDocument jsonDoc(jObject);
+        reply = manager->post(request, jsonDoc.toJson());
+        connect(reply, &QNetworkReply::finished, this, &PINWindow::loginAction);
+
+//        this->hide();
     }
+}
+
+void PINWindow::loginAction()
+{
+    killTimer(timerId);
+
+    ui->labelCount->setText(QString("Yhdistetään..."));
+
+    QByteArray responseData=reply->readAll();
+    if(responseData=="-4078" || responseData.length()==0){
+        qDebug() << "Virhe tietoverkkoyhteydessä!";
+    }
+    else {
+        QJsonDocument jsonDoc=QJsonDocument::fromJson(responseData);
+        QJsonObject jsonObject=jsonDoc.object();
+        if(jsonObject.contains("token")){
+            QString token=jsonObject["token"].toString();
+            QByteArray tokenBytes = token.toUtf8();
+
+             QMessageBox::information(
+                this,
+                tr("Pankkiautomaatti"),
+                tr("Tunnistautuminen onnistui!"));
+
+            // TÄNNE SEURAAVA MENU
+
+             this->close();
+        }
+        else {
+
+            qDebug() << "Tunnus ja PIN eivät täsmää.";
+
+            // ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
+            // ui->textUsername->clear();
+            // ui->textPassword->clear();
+            // ui->textUsername->setFocus();
+
+            QMessageBox::information(
+                this,
+                tr("Pankkiautomaatti"),
+                tr("Tunnus ja PIN eivät täsmää.") );
+
+            this->close();
+        }
+    }
+    reply->deleteLater();
 }
 
 void PINWindow::timerEvent(QTimerEvent *event)
