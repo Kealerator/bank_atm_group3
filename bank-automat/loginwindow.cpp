@@ -14,12 +14,10 @@ LoginWindow::LoginWindow(QWidget *parent)
     connect(ui->btnContinue, &QPushButton::clicked, this, &LoginWindow::btnContinueSlot);
 
 
-    qDebug() << "LoginWindow -olio luotu.";
 }
 
 LoginWindow::~LoginWindow()
 {
-    qDebug() << "LoginWindow -olio tuhottu.";
     delete ui;
 }
 

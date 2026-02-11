@@ -1,6 +1,7 @@
 #include "pinwindow.h"
 #include "ui_pinwindow.h"
 #include "QDebug"
+#include "mainmenu.h"
 #include <QMessageBox>
 
 PINWindow::PINWindow(QWidget *parent)
@@ -74,6 +75,7 @@ void PINWindow::btnSignInSlot()
         ui->labelCount->setText(QString("Yhdistetään..."));
         this->setPin(ui->linePIN->text());
 
+
         QString url = Environment::base_url()+"login";
         QNetworkRequest request(url);
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -109,25 +111,34 @@ void PINWindow::loginAction()
     else {
         QJsonDocument jsonDoc=QJsonDocument::fromJson(responseData);
         QJsonObject jsonObject=jsonDoc.object();
+
+
         if(jsonObject.contains("token")){
             QString token=jsonObject["token"].toString();
             QByteArray tokenBytes = token.toUtf8();
+
+            int idtili = jsonObject["idtili"].toInt();
 
              QMessageBox::information(
                 this,
                 tr("Pankkiautomaatti"),
                 tr("Tunnistautuminen onnistui!"));
 
-            // TÄNNE SEURAAVA MENU
 
-             this->close();
+
+            // TÄNNE SEURAAVA MENU
+            MainMenu *mainMenu = new MainMenu(this);
+            mainMenu->setIdtili(idtili);
+
+
+             mainMenu->exec();
+
+
+             this->hide();
         }
         else {
 
-            // ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
-            // ui->textUsername->clear();
-            // ui->textPassword->clear();
-            // ui->textUsername->setFocus();
+            ui->linePIN->clear();
 
             QMessageBox::information(
                 this,
