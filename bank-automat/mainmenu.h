@@ -3,6 +3,14 @@
 
 #include <QDialog>
 
+#include "environment.h"
+
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 namespace Ui {
 class MainMenu;
 }
@@ -18,6 +26,8 @@ public:
 
     int getIdtili() const;
     void setIdtili(int newIdtili);
+private slots:
+    void btnNostoSlot();
 
 private:
     Ui::MainMenu *ui;

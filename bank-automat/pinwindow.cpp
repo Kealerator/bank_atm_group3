@@ -88,7 +88,7 @@ void PINWindow::btnSignInSlot()
         reply = manager->post(request, jsonDoc.toJson());
         connect(reply, &QNetworkReply::finished, this, &PINWindow::loginAction);
 
-//        this->hide();
+ //       this->hide();
     }
 
 

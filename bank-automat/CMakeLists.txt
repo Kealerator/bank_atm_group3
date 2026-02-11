@@ -27,6 +27,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         pinwindow.h pinwindow.cpp pinwindow.ui
         environment.h environment.cpp
         mainmenu.h mainmenu.cpp mainmenu.ui
+        nostowindow.h nostowindow.cpp nostowindow.ui
 
 
 
