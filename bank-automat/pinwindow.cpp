@@ -10,7 +10,6 @@ PINWindow::PINWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->btnSignIn, &QPushButton::clicked, this, &PINWindow::btnSignInSlot);
 
-    qDebug() << "PINWindow -olio luotu.";
 
     manager = new QNetworkAccessManager(this);
     timerId = startTimer(1000);
@@ -20,7 +19,6 @@ PINWindow::PINWindow(QWidget *parent)
 
 PINWindow::~PINWindow()
 {
-    qDebug() << "PINWindow -olio luotu.";
     killTimer(timerId);
     delete ui;
 }
@@ -45,12 +43,35 @@ void PINWindow::setPin(const QString &newPin)
     pin = newPin;
 }
 
+bool PINWindow::checkPINFormat(QString string)
+{
+    if(string == ""){
+        ui->labelError->setText("PIN ei voi olla tyhjä!");
+
+        return false;
+    }
+    if(string.length() < 4){
+        ui->labelError->setText("PIN pituus tulee olla neljä numeroa!");
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+
 void PINWindow::btnSignInSlot()
 {
-    if(ui->linePIN->text() == ""){
-        ui->labelError->setText("PIN ei voi olla tyhjä!");
+
+    // Tarkistetaan onko PIN format oikein
+    if(!checkPINFormat(ui->linePIN->text())){
+        //ui->labelError->setText("PIN ei voi olla tyhjä!");
+
         ui->linePIN->setFocus();
+
     }else{
+        killTimer(timerId);
+        ui->labelCount->setText(QString("Yhdistetään..."));
         this->setPin(ui->linePIN->text());
 
         QString url = Environment::base_url()+"login";
@@ -67,17 +88,23 @@ void PINWindow::btnSignInSlot()
 
 //        this->hide();
     }
+
+
 }
 
 void PINWindow::loginAction()
 {
-    killTimer(timerId);
 
-    ui->labelCount->setText(QString("Yhdistetään..."));
 
     QByteArray responseData=reply->readAll();
     if(responseData=="-4078" || responseData.length()==0){
-        qDebug() << "Virhe tietoverkkoyhteydessä!";
+
+              QMessageBox::information(
+                this,
+                tr("Yhteysvirhe"),
+                tr("Virhe verkkoyhteydessä!"));
+
+                this->close();
     }
     else {
         QJsonDocument jsonDoc=QJsonDocument::fromJson(responseData);
@@ -97,8 +124,6 @@ void PINWindow::loginAction()
         }
         else {
 
-            qDebug() << "Tunnus ja PIN eivät täsmää.";
-
             // ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
             // ui->textUsername->clear();
             // ui->textPassword->clear();
@@ -112,6 +137,7 @@ void PINWindow::loginAction()
             this->close();
         }
     }
+
     reply->deleteLater();
 }
 

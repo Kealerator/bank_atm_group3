@@ -37,8 +37,9 @@ private:
 
     int timerId;
     int counter = 10;
-    QString tunniste;
-    QString pin;
+    QString tunniste, pin;
+
+    bool checkPINFormat(QString string);
 
 private slots:
     void btnSignInSlot();
