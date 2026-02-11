@@ -54,6 +54,9 @@
    <property name="focusPolicy">
     <enum>Qt::FocusPolicy::StrongFocus</enum>
    </property>
+   <property name="maxLength">
+    <number>4</number>
+   </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>

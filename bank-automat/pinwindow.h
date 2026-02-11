@@ -3,6 +3,15 @@
 
 #include <QDialog>
 
+#include "environment.h"
+
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+
 namespace Ui {
 class PINWindow;
 }
@@ -15,13 +24,26 @@ public:
     explicit PINWindow(QWidget *parent = nullptr);
     ~PINWindow();
 
+    QString getTunniste() const;
+    void setTunniste(const QString &newTunniste);
+
+    QString getPin() const;
+    void setPin(const QString &newPin);
+
 private:
     Ui::PINWindow *ui;
+    QNetworkAccessManager *manager;
+    QNetworkReply *reply;
+
     int timerId;
     int counter = 10;
+    QString tunniste, pin;
+
+    bool checkPINFormat(QString string);
 
 private slots:
     void btnSignInSlot();
+    void loginAction();
 
 protected:
     void timerEvent(QTimerEvent *event) override;
