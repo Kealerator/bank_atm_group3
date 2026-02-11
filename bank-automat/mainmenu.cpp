@@ -1,4 +1,5 @@
 #include "mainmenu.h"
+#include "nostowindow.h"
 #include "ui_mainmenu.h"
 
 MainMenu::MainMenu(QWidget *parent)
@@ -6,6 +7,7 @@ MainMenu::MainMenu(QWidget *parent)
     , ui(new Ui::MainMenu)
 {
     ui->setupUi(this);
+    connect(ui->btnNosto, &QPushButton::clicked, this, &MainMenu::btnNostoSlot);
 }
 
 MainMenu::~MainMenu()
@@ -21,4 +23,11 @@ int MainMenu::getIdtili() const
 void MainMenu::setIdtili(int newIdtili)
 {
     idtili = newIdtili;
+}
+
+void MainMenu::btnNostoSlot()
+{
+    this->hide();
+    NostoWindow *nosto = new NostoWindow(this);
+    nosto->exec();
 }
