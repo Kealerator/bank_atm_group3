@@ -11,6 +11,11 @@ NostoWindow::NostoWindow(QWidget *parent)
     connect(manager, &QNetworkAccessManager::finished, this, &NostoWindow::vastaus);
     connect(ui->btnTakaisin, &QPushButton::clicked, this, &NostoWindow::btnTakaisinSlot);
     connect (ui->btn20, &QPushButton::clicked, this, &NostoWindow::nosta20);
+    connect (ui->btn40, &QPushButton::clicked, this, &NostoWindow::nosta40);
+    connect (ui->btn50, &QPushButton::clicked, this, &NostoWindow::nosta50);
+    connect (ui->btn80, &QPushButton::clicked, this, &NostoWindow::nosta80);
+    connect (ui->btn100, &QPushButton::clicked, this, &NostoWindow::nosta100);
+    connect (ui->btn200, &QPushButton::clicked, this, &NostoWindow::nosta200);
 }
 
 NostoWindow::~NostoWindow()
@@ -26,7 +31,6 @@ void NostoWindow::setToken(const QString &newToken)
 
 void NostoWindow::btnTakaisinSlot()
 {
-    this->parentWidget()->show();
     this->close();
 }
 
@@ -85,6 +89,31 @@ void NostoWindow::vastaus(QNetworkReply *reply)
 void NostoWindow::nosta20()
 {
     lahetaNostoPyynto(20);
+}
+
+void NostoWindow::nosta40()
+{
+    lahetaNostoPyynto(40);
+}
+
+void NostoWindow::nosta50()
+{
+    lahetaNostoPyynto(50);
+}
+
+void NostoWindow::nosta80()
+{
+    lahetaNostoPyynto(80);
+}
+
+void NostoWindow::nosta100()
+{
+    lahetaNostoPyynto(100);
+}
+
+void NostoWindow::nosta200()
+{
+    lahetaNostoPyynto(200);
 }
 
 int NostoWindow::getIdtili() const

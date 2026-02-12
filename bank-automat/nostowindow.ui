@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>680</x>
-     <y>440</y>
+     <y>450</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -42,14 +42,79 @@
   <widget class="QPushButton" name="btn20">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>260</y>
+     <x>50</x>
+     <y>140</y>
      <width>111</width>
      <height>51</height>
     </rect>
    </property>
    <property name="text">
     <string>20€</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn40">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>220</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>40€</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn50">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>300</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>50€</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn80">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>140</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>80€</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn100">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>220</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>100€</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn200">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>300</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>200€</string>
    </property>
   </widget>
  </widget>

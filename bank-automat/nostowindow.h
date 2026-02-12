@@ -31,6 +31,12 @@ private slots:
     void btnTakaisinSlot();
     void vastaus(QNetworkReply *reply);
     void nosta20();
+    void nosta40();
+    void nosta50();
+    void nosta80();
+    void nosta100();
+    void nosta200();
+
 private:
     Ui::NostoWindow *ui;
     int idtili;
