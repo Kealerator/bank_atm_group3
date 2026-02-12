@@ -36,6 +36,7 @@ private slots:
     void nosta80();
     void nosta100();
     void nosta200();
+    void nostaMuuSumma();
 
 private:
     Ui::NostoWindow *ui;

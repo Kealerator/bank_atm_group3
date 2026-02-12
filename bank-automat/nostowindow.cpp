@@ -16,6 +16,7 @@ NostoWindow::NostoWindow(QWidget *parent)
     connect (ui->btn80, &QPushButton::clicked, this, &NostoWindow::nosta80);
     connect (ui->btn100, &QPushButton::clicked, this, &NostoWindow::nosta100);
     connect (ui->btn200, &QPushButton::clicked, this, &NostoWindow::nosta200);
+    connect(ui->btnNostaMuu, &QPushButton::clicked, this, &NostoWindow::nostaMuuSumma);
 }
 
 NostoWindow::~NostoWindow()
@@ -114,6 +115,25 @@ void NostoWindow::nosta100()
 void NostoWindow::nosta200()
 {
     lahetaNostoPyynto(200);
+}
+
+void NostoWindow::nostaMuuSumma()
+{
+    QString muuSumma = ui->lineEditMuuSumma->text();
+
+    if (muuSumma.isEmpty()) {
+        ui->labelStatus->setText("Syötä nostettava summa");
+        return;
+    }
+
+    int summa = muuSumma.toInt();
+
+    if (summa <= 0) {
+        ui->labelStatus->setText("Virheellinen summa");
+        return;
+    }
+
+    lahetaNostoPyynto(summa);
 }
 
 int NostoWindow::getIdtili() const
