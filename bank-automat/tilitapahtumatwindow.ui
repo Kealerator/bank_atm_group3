@@ -41,7 +41,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="ButtonPoistu">
+  <widget class="QPushButton" name="btnPoistu">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -54,7 +54,7 @@
     <string>Poistu</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="ButtonLeft">
+  <widget class="QPushButton" name="btnVasen">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -67,7 +67,7 @@
     <string>&lt;--</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="ButtonRight">
+  <widget class="QPushButton" name="btnOikea">
    <property name="geometry">
     <rect>
      <x>380</x>

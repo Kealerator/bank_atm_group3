@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QNetworkAccessManager>
 #include "tilitapahtumat.h"
 
 namespace Ui {
@@ -21,8 +22,14 @@ public:
 
     void setTilitapahtumatwindow(const QByteArray &newtilitapahtumatwindow);
 
+private slots:
+    void btnPoistuslot();
+
 private:
     Ui::tilitapahtumatwindow *ui;
+    int idtili;
+    QString token;
+    QNetworkAccessManager *manager;
     QByteArray Tilitapahtumatwindow;
 };
 

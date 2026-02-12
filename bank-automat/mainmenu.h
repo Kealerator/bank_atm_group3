@@ -31,7 +31,6 @@ public:
 
 private slots:
     void btnNostoSlot();
-    void btnTapahtumatClicked();
     void btnTapahtumatSlot();
 
 private:

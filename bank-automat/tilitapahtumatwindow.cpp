@@ -1,5 +1,6 @@
 #include "tilitapahtumatwindow.h"
 #include "ui_tilitapahtumatwindow.h"
+#include "environment.h"
 #include <QStandardItemModel>
 
 tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
@@ -7,6 +8,8 @@ tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
     , ui(new Ui::tilitapahtumatwindow)
 {
     ui->setupUi(this);
+    manager = new QNetworkAccessManager(this);
+    connect(ui->btnPoistu, &QPushButton::clicked, this, &tilitapahtumatwindow::btnPoistuslot);
 }
 
 tilitapahtumatwindow::~tilitapahtumatwindow()
@@ -15,11 +18,11 @@ tilitapahtumatwindow::~tilitapahtumatwindow()
 }
 void tilitapahtumatwindow::setTilitapahtumatwindow(const QByteArray &newtilitapahtumatwindow)
 {
-    tilitapahtumatwindow = newtilitapahtumatwindow;
+    Tilitapahtumatwindow = newtilitapahtumatwindow;
     qDebug()<<"Tilitapahtumat form";
     //qDebug()<<tilitapahtumatwindow;
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(tilitapahtumatwindow);
+    QJsonDocument json_doc = QJsonDocument::fromJson(Tilitapahtumatwindow);
     QJsonArray json_array=json_doc.array();
 
     QVector<tilitapahtumat> listTilitapahtumat;
@@ -43,3 +46,10 @@ void tilitapahtumatwindow::setTilitapahtumatwindow(const QByteArray &newtilitapa
     ui->tilitapahtumatTable->setModel(tableModel);
     ui->tilitapahtumatTable->verticalHeader()->setVisible(false);
     ui->tilitapahtumatTable->resizeColumnsToContents();
+}
+
+void tilitapahtumatwindow::btnPoistuslot()
+{
+    this->parentWidget()->show();
+    this->close();
+}
