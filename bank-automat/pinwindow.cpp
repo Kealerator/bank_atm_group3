@@ -133,7 +133,7 @@ void PINWindow::loginAction()
 
 
 
-             mainMenu->exec();
+            mainMenu->show();
 
 
              this->hide();

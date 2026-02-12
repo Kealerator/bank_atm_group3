@@ -2,6 +2,7 @@
 #include "nostowindow.h"
 #include "ui_mainmenu.h"
 
+
 MainMenu::MainMenu(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainMenu)
@@ -32,6 +33,7 @@ void MainMenu::btnNostoSlot()
     nosto->setIdtili(idtili);
     nosto->setToken(token);
     nosto->exec();
+    this->show();
 }
 
 QString MainMenu::getToken() const
