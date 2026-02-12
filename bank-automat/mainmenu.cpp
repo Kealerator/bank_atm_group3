@@ -30,13 +30,17 @@ void MainMenu::btnNostoSlot()
 {
     this->hide();
     NostoWindow *nosto = new NostoWindow(this);
+    nosto->setIdtili(idtili);
+    nosto->setToken(token);
     nosto->exec();
 }
 
-void MainMenu::btnTapahtumatSlot()
+QString MainMenu::getToken() const
 {
-    this->hide();
-    TilitapahtumatWindow *tapahtumat = new TilitapahtumatWindow(this);
-    tapahtumat->exec();
+    return token;
 }
 
+void MainMenu::setToken(const QString &newToken)
+{
+    token = newToken;
+}

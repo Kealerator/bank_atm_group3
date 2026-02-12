@@ -30,7 +30,7 @@ router.post('/', function (request, response) {
                                 if (!result || result.length === 0) { 
                                     return response.json({ success: false, message: "Korttiin liitettyä tiliä ei löytynyt" }); }
                                 else {
-                                    const idtili = result[0].idtili;
+                                    const idtili = result[0].idTili;
 
                                     // Liitetään löydetty tilin id vastaukseen
                                     response.setHeader('Content-Type', 'application/json');
