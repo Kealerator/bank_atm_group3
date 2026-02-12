@@ -129,6 +129,8 @@ void PINWindow::loginAction()
             // TÄNNE SEURAAVA MENU
             MainMenu *mainMenu = new MainMenu(this);
             mainMenu->setIdtili(idtili);
+            mainMenu->setToken(token);
+
 
 
              mainMenu->exec();

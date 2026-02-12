@@ -26,12 +26,15 @@ public:
 
     int getIdtili() const;
     void setIdtili(int newIdtili);
+    QString getToken() const;
+    void setToken(const QString &newToken);
+
 private slots:
     void btnNostoSlot();
 
 private:
     Ui::MainMenu *ui;
-
+    QString token;
 
     int idtili;
 };
