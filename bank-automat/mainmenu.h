@@ -28,6 +28,8 @@ public:
     void setIdtili(int newIdtili);
 private slots:
     void btnNostoSlot();
+    void btnTapahtumatClicked();
+    void btnTapahtumatSlot();
 
 private:
     Ui::MainMenu *ui;

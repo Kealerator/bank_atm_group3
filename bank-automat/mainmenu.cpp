@@ -8,6 +8,7 @@ MainMenu::MainMenu(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->btnNosto, &QPushButton::clicked, this, &MainMenu::btnNostoSlot);
+    connect(ui->btnTapahtumat, &QPushButton::clicked, this, &MainMenu::btnTapahtumatSlot);
 }
 
 MainMenu::~MainMenu()
@@ -31,3 +32,11 @@ void MainMenu::btnNostoSlot()
     NostoWindow *nosto = new NostoWindow(this);
     nosto->exec();
 }
+
+void MainMenu::btnTapahtumatSlot()
+{
+    this->hide();
+    TilitapahtumatWindow *tapahtumat = new TilitapahtumatWindow(this);
+    tapahtumat->exec();
+}
+
