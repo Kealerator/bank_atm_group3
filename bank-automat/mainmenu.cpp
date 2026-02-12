@@ -29,5 +29,17 @@ void MainMenu::btnNostoSlot()
 {
     this->hide();
     NostoWindow *nosto = new NostoWindow(this);
+    nosto->setIdtili(idtili);
+    nosto->setToken(token);
     nosto->exec();
+}
+
+QString MainMenu::getToken() const
+{
+    return token;
+}
+
+void MainMenu::setToken(const QString &newToken)
+{
+    token = newToken;
 }
