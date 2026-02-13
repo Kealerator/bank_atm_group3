@@ -1,6 +1,8 @@
 #include "mainmenu.h"
 #include "nostowindow.h"
 #include "ui_mainmenu.h"
+#include "tilitapahtumatwindow.h"
+#include "tilitapahtumat.h"
 
 
 MainMenu::MainMenu(QWidget *parent)
@@ -9,6 +11,7 @@ MainMenu::MainMenu(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->btnNosto, &QPushButton::clicked, this, &MainMenu::btnNostoSlot);
+    connect(ui->btnTapahtumat, &QPushButton::clicked, this, &MainMenu::btnTapahtumatSlot);
 }
 
 MainMenu::~MainMenu()
@@ -34,6 +37,15 @@ void MainMenu::btnNostoSlot()
     nosto->setToken(token);
     nosto->exec();
     this->show();
+}
+
+void MainMenu::btnTapahtumatSlot()
+{
+    this->hide();
+    tilitapahtumatwindow *tapahtumat = new tilitapahtumatwindow(this);
+    //tapahtumat->setIdtili(idtili);
+    //tapahtumat->setToken(token);
+    tapahtumat->exec();
 }
 
 QString MainMenu::getToken() const

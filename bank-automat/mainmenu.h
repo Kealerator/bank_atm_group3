@@ -31,6 +31,7 @@ public:
 
 private slots:
     void btnNostoSlot();
+    void btnTapahtumatSlot();
 
 private:
     Ui::MainMenu *ui;
