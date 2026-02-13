@@ -4,6 +4,7 @@
 #include "tilitapahtumatwindow.h"
 #include "tilitapahtumat.h"
 
+
 MainMenu::MainMenu(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainMenu)
@@ -35,6 +36,7 @@ void MainMenu::btnNostoSlot()
     nosto->setIdtili(idtili);
     nosto->setToken(token);
     nosto->exec();
+    this->show();
 }
 
 void MainMenu::btnTapahtumatSlot()
