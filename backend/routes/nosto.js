@@ -23,7 +23,10 @@ router.post('/nosto/:idtili', function(request, response) {
     // Ehtolause kymppejä varten
         if (summa % 10 !== 0) {
             console.log("Nostettava summa ei ole kymppejä");
-            response.json({ message: "Nostettava summa ei ole kymppejä" });
+            response.json({
+                success: false,
+                message: 'Nostettava summa ei ole kelvollinen (ei kymppejä)',
+            });
             return;
         }
 
@@ -33,7 +36,13 @@ router.post('/nosto/:idtili', function(request, response) {
         
         if (summa > kate) {
             console.log("Tilillä ei ole tarpeeksi katetta");
-            response.json({ message: "Tilillä ei ole tarpeeksi katetta" });
+            response.json({
+                success: false,
+                message: 'Tilillä ei ole tarpeeksi katetta',
+                saldo: saldo,
+                luottoraja: luottoraja,
+                käytettävissä: kate
+            });
             return;
         }
     
@@ -55,7 +64,9 @@ router.post('/nosto/:idtili', function(request, response) {
                     response.json({
                         success: true,
                         message: 'Nosto onnistui',
-                        uusiSaldo: uusiSaldo
+                        uusiSaldo: uusiSaldo,
+                        luottoraja: luottoraja,
+                        käytettävissä: uusiSaldo + luottoraja
                     });
                 }
             });

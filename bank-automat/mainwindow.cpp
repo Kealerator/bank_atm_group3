@@ -18,7 +18,7 @@ MainWindow::~MainWindow()
 void MainWindow::btnStartSlot()
 {
     this->hide();
-    LoginWindow *login = new LoginWindow;
+    LoginWindow *login = new LoginWindow(this);
     login->exec();
     this->show();
 }

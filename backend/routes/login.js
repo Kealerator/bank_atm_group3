@@ -27,28 +27,21 @@ router.post('/', function (request, response) {
                                 if (err) {
                                     response.json(err.errno);
                                 }
+                                if (!result || result.length === 0) { 
+                                    return response.json({ success: false, message: "Korttiin liitettyä tiliä ei löytynyt" }); }
                                 else {
                                     const idtili = result[0].idTili;
 
-                                    // Haetaan tilin tiedot sen id:llä
-                                    tili.getOne(idtili, function (err, result) {
-                                        if (err) { 
-                                            response.json(err.errno);
-                                        }
-                                        else {
-                                            const tiliNro = result[0].Tilinumero;
-
-                                            // Liitetään löydetty tilinumero vastaukseen
-                                            response.setHeader('Content-Type', 'application/json');
-                                            response.json({
-                                                success: true,
-                                                message: "Login OK",
-                                                tunnistekoodi: tunnistekoodi,
-                                                tilinumero: tiliNro,
-                                                token: token
-                                            });
-                                        }
+                                    // Liitetään löydetty tilin id vastaukseen
+                                    response.setHeader('Content-Type', 'application/json');
+                                    response.json({
+                                        success: true,
+                                        message: "Login OK",
+                                        tunnistekoodi: tunnistekoodi,
+                                        idtili: idtili,
+                                        token: token
                                     });
+
                                 }
                             });
                         }

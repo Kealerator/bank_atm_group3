@@ -29,9 +29,11 @@ void LoginWindow::btnContinueSlot()
     }else{
 
         ui->labelErrorMsg->setText("");
+        PINWindow *pinQuery = new PINWindow(this);
+        pinQuery->setTunniste(ui->lineTunnistekoodi->text());
         this->hide();
-        PINWindow pinQuery;
-        pinQuery.exec();
+        pinQuery->exec();
+
     }
 
 
