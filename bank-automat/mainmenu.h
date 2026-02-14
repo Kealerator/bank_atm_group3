@@ -32,6 +32,7 @@ public:
 private slots:
     void btnNostoSlot();
     void btnTapahtumatSlot();
+    void btnSaldoSlot();
 
 private:
     Ui::MainMenu *ui;
