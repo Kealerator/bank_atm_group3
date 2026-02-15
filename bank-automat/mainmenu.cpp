@@ -3,6 +3,8 @@
 #include "ui_mainmenu.h"
 #include "tilitapahtumatwindow.h"
 #include "tilitapahtumat.h"
+#include "saldowindow.h"
+#include "asiakastiedotwindow.h"
 
 
 MainMenu::MainMenu(QWidget *parent)
@@ -12,6 +14,9 @@ MainMenu::MainMenu(QWidget *parent)
     ui->setupUi(this);
     connect(ui->btnNosto, &QPushButton::clicked, this, &MainMenu::btnNostoSlot);
     connect(ui->btnTapahtumat, &QPushButton::clicked, this, &MainMenu::btnTapahtumatSlot);
+    connect(ui->btnSaldo, &QPushButton::clicked, this, &MainMenu::btnSaldoSlot);
+    connect(ui->btnTiedot, &QPushButton::clicked, this, &MainMenu::btnAsiakastiedotSlot);
+
 }
 
 MainMenu::~MainMenu()
@@ -56,4 +61,26 @@ QString MainMenu::getToken() const
 void MainMenu::setToken(const QString &newToken)
 {
     token = newToken;
+}
+
+void MainMenu::btnSaldoSlot(){
+    this->hide();
+    saldowindow *objSaldo = new saldowindow(this);
+    objSaldo->setIdTili(idtili);
+    objSaldo->setToken(token);
+    objSaldo->requestSaldo();
+    objSaldo->exec();
+    this->show();
+
+}
+
+void MainMenu::btnAsiakastiedotSlot(){
+    this->hide();
+    asiakastiedotwindow *objAsiakastiedot = new asiakastiedotwindow(this);
+    objAsiakastiedot->setIdTili(idtili);
+    objAsiakastiedot->setToken(token);
+    objAsiakastiedot->requestAsiakastiedot();
+    objAsiakastiedot->exec();
+    this->show();
+
 }
