@@ -28,6 +28,14 @@ const asiakas = {
     return db.query(
         'update asiakas set etunimi=?, sukunimi=?, osoite=?, puhelinnumero=? where idasiakas=?',
         [asiakas.etunimi, asiakas.sukunimi, asiakas.osoite, asiakas.puhelinnumero, id], callback);
+  },
+
+  getAsiakasTiedot: function(idTili, callback){
+      return db.query(
+            'select a.idasiakas, a.etunimi, a.sukunimi, a.osoite, a.puhelinnumero from asiakas a join ' +
+            'tili t on t.idasiakas = a.idasiakas where t.idtili = ?', [idTili], callback);
+      
+      
   }
 };
 module.exports = asiakas;

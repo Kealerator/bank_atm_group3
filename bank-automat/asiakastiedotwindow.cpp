@@ -25,7 +25,7 @@ void asiakastiedotwindow::requestAsiakastiedot()
 {
     qDebug() << "idTili:" << idTili;
 
-    QString base_url =Environment::base_url()+"asiakas/" + QString::number(idTili);
+    QString base_url =Environment::base_url()+"asiakas/tiedot/" + QString::number(idTili);
     QNetworkRequest request(base_url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", "Bearer " + token.toUtf8());
@@ -55,10 +55,10 @@ void asiakastiedotwindow::asiakastiedotSlot()
     QJsonArray jsonArray = jsonDoc.array();
     QJsonObject jsonObject = jsonArray.at(0).toObject();
 
-    ui->labelFname->setText(jsonObject["Etunimi"].toString());
-    ui->labelLname->setText(jsonObject["Sukunimi"].toString());
-    ui->labelAddress->setText(jsonObject["Osoite"].toString());
-    ui->labelPnumber->setText(jsonObject["Puhelinnumero"].toString());
+    ui->labelFname->setText(jsonObject["etunimi"].toString());
+    ui->labelLname->setText(jsonObject["sukunimi"].toString());
+    ui->labelAddress->setText(jsonObject["osoite"].toString());
+    ui->labelPnumber->setText(jsonObject["puhelinnumero"].toString());
 
     reply->deleteLater();
 }
