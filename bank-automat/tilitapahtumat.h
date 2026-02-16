@@ -8,7 +8,7 @@ public:
     int idtili;
     QString tilinumero;
     QString tapahtumat;
-    int summa;
+    double summa;
     QString ajankohta;
     static tilitapahtumat mapJson(const QJsonObject &json);
 };

@@ -45,12 +45,15 @@ void MainMenu::btnNostoSlot()
 }
 
 void MainMenu::btnTapahtumatSlot()
-{
+{ 
     this->hide();
     tilitapahtumatwindow *tapahtumat = new tilitapahtumatwindow(this);
-    //tapahtumat->setIdtili(idtili);
-    //tapahtumat->setToken(token);
+    tapahtumat->setIdtili(idtili);
+    tapahtumat->setToken(token);
+    tapahtumat->btnTapahtumatClicked();
     tapahtumat->exec();
+    this->show();
+
 }
 
 QString MainMenu::getToken() const
