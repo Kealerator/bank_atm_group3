@@ -32,6 +32,7 @@ int MainMenu::getIdtili() const
 void MainMenu::setIdtili(int newIdtili)
 {
     idtili = newIdtili;
+    ui->labelidTili->setText("Tili-ID: " + QString::number(idtili));
 }
 
 void MainMenu::btnNostoSlot()
