@@ -130,7 +130,7 @@ void PINWindow::loginAction()
             mainMenu->setToken(token);
 
 
-            this->hide();
+            this->close();
             mainMenu->exec();
 
         }

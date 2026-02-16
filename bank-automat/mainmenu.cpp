@@ -36,7 +36,7 @@ void MainMenu::setIdtili(int newIdtili)
 
 void MainMenu::btnNostoSlot()
 {
-    this->hide();
+    //this->hide();
     NostoWindow *nosto = new NostoWindow(this);
     nosto->setIdtili(idtili);
     nosto->setToken(token);
@@ -46,7 +46,7 @@ void MainMenu::btnNostoSlot()
 
 void MainMenu::btnTapahtumatSlot()
 {
-    this->hide();
+//    this->hide();
     tilitapahtumatwindow *tapahtumat = new tilitapahtumatwindow(this);
     //tapahtumat->setIdtili(idtili);
     //tapahtumat->setToken(token);
@@ -64,7 +64,7 @@ void MainMenu::setToken(const QString &newToken)
 }
 
 void MainMenu::btnSaldoSlot(){
-    this->hide();
+//    this->hide();
     saldowindow *objSaldo = new saldowindow(this);
     objSaldo->setIdTili(idtili);
     objSaldo->setToken(token);
@@ -75,7 +75,7 @@ void MainMenu::btnSaldoSlot(){
 }
 
 void MainMenu::btnAsiakastiedotSlot(){
-    this->hide();
+//    this->hide();
     asiakastiedotwindow *objAsiakastiedot = new asiakastiedotwindow(this);
     objAsiakastiedot->setIdTili(idtili);
     objAsiakastiedot->setToken(token);
