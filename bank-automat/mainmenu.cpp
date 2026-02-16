@@ -44,43 +44,17 @@ void MainMenu::btnNostoSlot()
     this->show();
 }
 
-void MainMenu::TapahtumatSlot()
-{
-    QByteArray response=reply->readAll();
-    qDebug()<<"TapahtumatSlot()";
-    qDebug()<<response;
-    tilitapahtumatwindow *objtilitapahtumatwindow=new tilitapahtumatwindow(this);
-    objtilitapahtumatwindow->setTilitapahtumatwindow(response);
-    objtilitapahtumatwindow->show();
-
-
-    reply->deleteLater();
-}
-
-void MainMenu::btnTapahtumatClicked()
-{
-    qDebug()<<"BtnTapahtumaClicked()";
-    QString url=Environment::base_url()+"tilitapahtumat/"+ QString::number(idtili);
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/json");
-    qDebug()<<"Setheader";
-
-    //WebTokenin alku
-    qDebug()<<"WebTokenin alku";
-    QString myToken="Bearer "+token;
-    qDebug()<<"Ennen SetRawHeader";
-    request.setRawHeader(QString("Authorization").toUtf8(),(myToken.toUtf8()));
-
-    //WebTokenin loppu
-    qDebug()<<"SetRawheaderin jälkeen";
-    reply=manager->get(request);
-    qDebug()<<"manager Request";
-
-    connect(reply, &QNetworkReply::finished, this, &MainMenu::TapahtumatSlot);
-    qDebug()<<"Slotti";
+void MainMenu::btnTapahtumatSlot()
+{ 
+    this->hide();
+    tilitapahtumatwindow *tapahtumat = new tilitapahtumatwindow(this);
+    tapahtumat->setIdtili(idtili);
+    tapahtumat->setToken(token);
+    tapahtumat->btnTapahtumatClicked();
+    tapahtumat->exec();
+    this->show();
 
 }
-
 
 QString MainMenu::getToken() const
 {

@@ -34,9 +34,9 @@
   <widget class="QTableView" name="tilitapahtumatTable">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>110</x>
      <y>100</y>
-     <width>331</width>
+     <width>391</width>
      <height>241</height>
     </rect>
    </property>

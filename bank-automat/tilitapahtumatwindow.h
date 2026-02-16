@@ -25,9 +25,12 @@ public:
 
     void setToken(const QString &newToken);
     void setIdtili(int newIdtili);
+    void btnTapahtumatClicked();
+    void Tilitapahtumatslot();
 
 private slots:
     void btnPoistuslot();
+
 
 
 private:
@@ -35,6 +38,7 @@ private:
     int idtili;
     QString token;
     QNetworkAccessManager *manager;
+    QNetworkReply *reply;
     QByteArray Tilitapahtumatwindow;
 };
 

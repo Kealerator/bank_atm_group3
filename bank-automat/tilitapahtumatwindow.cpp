@@ -16,13 +16,24 @@ tilitapahtumatwindow::~tilitapahtumatwindow()
 {
     delete ui;
 }
-void tilitapahtumatwindow::setTilitapahtumatwindow(const QByteArray &newtilitapahtumatwindow)
-{
-    Tilitapahtumatwindow = newtilitapahtumatwindow;
-    qDebug()<<"Tilitapahtumat form";
-    qDebug()<<Tilitapahtumatwindow;
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(Tilitapahtumatwindow);
+void tilitapahtumatwindow::btnTapahtumatClicked()
+{
+    QString url =Environment::base_url()+"tilitapahtumat/tili/"+QString::number(idtili);
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", "Bearer " + token.toUtf8());
+    reply = manager->get(request);
+    connect(reply, &QNetworkReply::finished, this, &tilitapahtumatwindow::Tilitapahtumatslot);
+
+}
+
+void tilitapahtumatwindow::Tilitapahtumatslot()
+{
+    QByteArray response = reply->readAll();
+    qDebug() << "Tilitapahtumat: " << response;
+
+    QJsonDocument json_doc = QJsonDocument::fromJson(response);
     QJsonArray json_array=json_doc.array();
 
     QVector<tilitapahtumat> listTilitapahtumat;
@@ -34,7 +45,7 @@ void tilitapahtumatwindow::setTilitapahtumatwindow(const QByteArray &newtilitapa
     }
 
     auto *tableModel = new QStandardItemModel(listTilitapahtumat.size(), 4, this);
-    tableModel->setHorizontalHeaderLabels({ tr("idtili"), tr("tilinumero"), tr("tapahtumat"), tr("summa"), tr("ajankohta") });
+    tableModel->setHorizontalHeaderLabels({ tr("tilinumero"), tr("tapahtumat"), tr("summa"), tr("ajankohta") });
     for (int row = 0; row<listTilitapahtumat.size(); ++row){
         const tilitapahtumat &tilitapahtuma = listTilitapahtumat[row];
         tableModel->setItem(row, 0, new QStandardItem(tilitapahtuma.tilinumero));
@@ -45,6 +56,7 @@ void tilitapahtumatwindow::setTilitapahtumatwindow(const QByteArray &newtilitapa
     ui->tilitapahtumatTable->setModel(tableModel);
     ui->tilitapahtumatTable->verticalHeader()->setVisible(false);
     ui->tilitapahtumatTable->resizeColumnsToContents();
+    reply->deleteLater();
 }
 
 void tilitapahtumatwindow::setToken(const QString &newToken)
