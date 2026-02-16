@@ -1,7 +1,12 @@
 QWidget {
-    background-color: #181854;
+    background: url("../bank_icon_80.png") no-repeat, center;
+    background-origin: content;
+
     font-family: "Segoe UI";
     font-weight: bold;
+}
+QLabel {
+    background: transparent;
 }
 
 QWidget #labelTitle {
@@ -24,6 +29,7 @@ QWidget #btnReturn:hover{
 }
 
 QPushButton {
+    background: transparent;
     color: white;
     background-color: #3838C7;
     border-radius:12px
@@ -32,6 +38,7 @@ QPushButton {
 QPushButton:hover {
     background-color: #5C5CD1;
 }
+
 
 QMessageBox QPushButton{
     min-width: 50px;

@@ -11,14 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Tilitapahtumat</string>
   </property>
   <widget class="QLabel" name="labelTitle">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>10</x>
      <y>20</y>
-     <width>411</width>
+     <width>781</width>
      <height>71</height>
     </rect>
    </property>
@@ -77,7 +77,7 @@
   <widget class="QPushButton" name="btnOikea">
    <property name="geometry">
     <rect>
-     <x>460</x>
+     <x>520</x>
      <y>370</y>
      <width>93</width>
      <height>29</height>
