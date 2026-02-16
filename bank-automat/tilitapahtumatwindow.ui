@@ -51,7 +51,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Poistu</string>
+    <string>Takaisin</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnVasen">

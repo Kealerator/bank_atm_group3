@@ -20,7 +20,7 @@ void tilitapahtumatwindow::setTilitapahtumatwindow(const QByteArray &newtilitapa
 {
     Tilitapahtumatwindow = newtilitapahtumatwindow;
     qDebug()<<"Tilitapahtumat form";
-    //qDebug()<<tilitapahtumatwindow;
+    qDebug()<<Tilitapahtumatwindow;
 
     QJsonDocument json_doc = QJsonDocument::fromJson(Tilitapahtumatwindow);
     QJsonArray json_array=json_doc.array();
@@ -37,15 +37,24 @@ void tilitapahtumatwindow::setTilitapahtumatwindow(const QByteArray &newtilitapa
     tableModel->setHorizontalHeaderLabels({ tr("idtili"), tr("tilinumero"), tr("tapahtumat"), tr("summa"), tr("ajankohta") });
     for (int row = 0; row<listTilitapahtumat.size(); ++row){
         const tilitapahtumat &tilitapahtuma = listTilitapahtumat[row];
-        tableModel->setItem(row, 0, new QStandardItem(QString::number(tilitapahtuma.idtili)));
-        tableModel->setItem(row, 1, new QStandardItem(tilitapahtuma.tilinumero));
-        tableModel->setItem(row, 2, new QStandardItem(tilitapahtuma.tapahtumat));
-        tableModel->setItem(row, 3, new QStandardItem(QString::number(tilitapahtuma.summa)));
-        tableModel->setItem(row, 4, new QStandardItem(tilitapahtuma.ajankohta));
+        tableModel->setItem(row, 0, new QStandardItem(tilitapahtuma.tilinumero));
+        tableModel->setItem(row, 1, new QStandardItem(tilitapahtuma.tapahtumat));
+        tableModel->setItem(row, 2, new QStandardItem(QString::number(tilitapahtuma.summa)));
+        tableModel->setItem(row, 3, new QStandardItem(tilitapahtuma.ajankohta));
     }
     ui->tilitapahtumatTable->setModel(tableModel);
     ui->tilitapahtumatTable->verticalHeader()->setVisible(false);
     ui->tilitapahtumatTable->resizeColumnsToContents();
+}
+
+void tilitapahtumatwindow::setToken(const QString &newToken)
+{
+    token = newToken;
+}
+
+void tilitapahtumatwindow::setIdtili(int newIdtili)
+{
+    idtili = newIdtili;
 }
 
 void tilitapahtumatwindow::btnPoistuslot()
@@ -53,3 +62,4 @@ void tilitapahtumatwindow::btnPoistuslot()
     this->parentWidget()->show();
     this->close();
 }
+

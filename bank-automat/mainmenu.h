@@ -31,11 +31,14 @@ public:
 
 private slots:
     void btnNostoSlot();
-    void btnTapahtumatSlot();
+    void TapahtumatSlot();
+    void btnTapahtumatClicked();
 
 private:
     Ui::MainMenu *ui;
     QString token;
+    QNetworkAccessManager *manager;
+    QNetworkReply *reply;
 
     int idtili;
 };
