@@ -38,6 +38,8 @@ private slots:
 private:
     Ui::MainMenu *ui;
     QString token;
+    QNetworkAccessManager *manager;
+    QNetworkReply *reply;
 
     int idtili;
 };
