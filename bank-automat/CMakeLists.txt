@@ -30,6 +30,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         nostowindow.h nostowindow.cpp nostowindow.ui
         tilitapahtumatwindow.h tilitapahtumatwindow.cpp tilitapahtumatwindow.ui
         tilitapahtumat.h tilitapahtumat.cpp
+        saldowindow.h saldowindow.cpp saldowindow.ui
+        asiakastiedotwindow.h asiakastiedotwindow.cpp asiakastiedotwindow.ui
 
 
 

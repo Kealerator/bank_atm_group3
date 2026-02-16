@@ -31,8 +31,9 @@ public:
 
 private slots:
     void btnNostoSlot();
-    void TapahtumatSlot();
-    void btnTapahtumatClicked();
+    void btnTapahtumatSlot();
+    void btnSaldoSlot();
+    void btnAsiakastiedotSlot();
 
 private:
     Ui::MainMenu *ui;
