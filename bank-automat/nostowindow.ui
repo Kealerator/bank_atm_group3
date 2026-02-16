@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="btnTakaisin">
+  <widget class="QPushButton" name="btnReturn">
    <property name="geometry">
     <rect>
      <x>680</x>
@@ -151,7 +151,7 @@
   <widget class="QPushButton" name="btnNostaMuu">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>340</x>
      <y>320</y>
      <width>80</width>
      <height>24</height>
@@ -161,7 +161,7 @@
     <string>Nosta</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="labelTitle">
    <property name="geometry">
     <rect>
      <x>270</x>

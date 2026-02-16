@@ -9,7 +9,7 @@ NostoWindow::NostoWindow(QWidget *parent)
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &NostoWindow::vastaus);
-    connect(ui->btnTakaisin, &QPushButton::clicked, this, &NostoWindow::btnTakaisinSlot);
+    connect(ui->btnReturn, &QPushButton::clicked, this, &NostoWindow::btnTakaisinSlot);
     connect (ui->btn20, &QPushButton::clicked, this, &NostoWindow::nosta20);
     connect (ui->btn40, &QPushButton::clicked, this, &NostoWindow::nosta40);
     connect (ui->btn50, &QPushButton::clicked, this, &NostoWindow::nosta50);
@@ -32,7 +32,7 @@ void NostoWindow::setToken(const QString &newToken)
 
 void NostoWindow::btnTakaisinSlot()
 {
-    this->close();
+    this->hide();
 }
 
 void NostoWindow::vastaus(QNetworkReply *reply)

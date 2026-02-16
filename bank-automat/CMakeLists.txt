@@ -32,11 +32,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         tilitapahtumat.h tilitapahtumat.cpp
         saldowindow.h saldowindow.cpp saldowindow.ui
         asiakastiedotwindow.h asiakastiedotwindow.cpp asiakastiedotwindow.ui
-
-
-
-
+        resource.qrc style.qss
+        resource.qrc
     )
+
+qt_add_resources(RESOURCES_ADDED resource.qrc)
+target_sources(bank-automat PRIVATE ${RESOURCES_ADDED})
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET bank-automat APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
