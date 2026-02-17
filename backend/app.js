@@ -5,7 +5,6 @@ var logger = require('morgan');
 const jwt = require('jsonwebtoken');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 
 const asiakasRouter = require('./routes/asiakas');
