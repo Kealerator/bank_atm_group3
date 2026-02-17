@@ -33,7 +33,6 @@ app.use('/login', loginRouter);
 
 // Suojatut
 app.use(authenticateToken);
-app.use('/users', usersRouter);
 app.use('/asiakas', asiakasRouter);
 app.use('/kortti', korttiRouter);
 app.use('/tili', tiliRouter);
