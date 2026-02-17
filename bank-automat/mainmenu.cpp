@@ -15,6 +15,7 @@ MainMenu::MainMenu(QWidget *parent)
     connect(ui->btnTapahtumat, &QPushButton::clicked, this, &MainMenu::btnTapahtumatSlot);
     connect(ui->btnSaldo, &QPushButton::clicked, this, &MainMenu::btnSaldoSlot);
     connect(ui->btnTiedot, &QPushButton::clicked, this, &MainMenu::btnAsiakastiedotSlot);
+    connect(ui->btnLogout, &QPushButton::clicked, this, &MainMenu::btnLogoutSlot);
 
 }
 
@@ -85,4 +86,12 @@ void MainMenu::btnAsiakastiedotSlot(){
     objAsiakastiedot->exec();
     this->show();
 
+}
+
+void MainMenu::btnLogoutSlot()
+{
+    // Asetetaan tokenin ja idTilin arvot kelvottomiksi
+    this->setIdtili(-1);
+    this->setToken(NULL);
+    this->close();
 }

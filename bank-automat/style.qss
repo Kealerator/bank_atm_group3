@@ -21,6 +21,10 @@ QWidget #btnLogout:hover{
     background-color: #E71818;
 }
 
+QWidget #btnLogout:hover:pressed{
+    background-color: #941010;
+}
+
 QWidget #btnReturn {
         background-color: #B01212;
 }
@@ -28,17 +32,30 @@ QWidget #btnReturn:hover{
     background-color: #E71818;
 }
 
+QWidget #btnReturn:hover:pressed{
+    background-color: #941010;
+}
+
 QPushButton {
     background: transparent;
     color: white;
     background-color: #3838C7;
-    border-radius:12px
+    border-radius:12px;
+
 }
 
 QPushButton:hover {
     background-color: #5C5CD1;
+    border: 1px solid black;
 }
 
+QPushButton:hover:pressed {
+    background-color: #24247F;
+}
+
+QWidget:QMessageBox {
+    background-color: #24247F;
+}
 
 QMessageBox QPushButton{
     min-width: 50px;
@@ -52,6 +69,7 @@ QMessageBox QPushButton{
 QMessageBox QPushButton:hover {
     background-color: #E71818;
 }
+
 QMessageBox QLabel {
     padding: 20px;
     alignment: left;
