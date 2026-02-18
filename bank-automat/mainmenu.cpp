@@ -2,7 +2,6 @@
 #include "nostowindow.h"
 #include "ui_mainmenu.h"
 #include "tilitapahtumatwindow.h"
-#include "tilitapahtumat.h"
 #include "saldowindow.h"
 #include "asiakastiedotwindow.h"
 
@@ -16,6 +15,7 @@ MainMenu::MainMenu(QWidget *parent)
     connect(ui->btnTapahtumat, &QPushButton::clicked, this, &MainMenu::btnTapahtumatSlot);
     connect(ui->btnSaldo, &QPushButton::clicked, this, &MainMenu::btnSaldoSlot);
     connect(ui->btnTiedot, &QPushButton::clicked, this, &MainMenu::btnAsiakastiedotSlot);
+    connect(ui->btnLogout, &QPushButton::clicked, this, &MainMenu::btnLogoutSlot);
 
 }
 
@@ -37,7 +37,7 @@ void MainMenu::setIdtili(int newIdtili)
 
 void MainMenu::btnNostoSlot()
 {
-    this->hide();
+    //this->hide();
     NostoWindow *nosto = new NostoWindow(this);
     nosto->setIdtili(idtili);
     nosto->setToken(token);
@@ -46,8 +46,8 @@ void MainMenu::btnNostoSlot()
 }
 
 void MainMenu::btnTapahtumatSlot()
-{ 
-    this->hide();
+{
+//    this->hide();
     tilitapahtumatwindow *tapahtumat = new tilitapahtumatwindow(this);
     tapahtumat->setIdtili(idtili);
     tapahtumat->setToken(token);
@@ -68,7 +68,7 @@ void MainMenu::setToken(const QString &newToken)
 }
 
 void MainMenu::btnSaldoSlot(){
-    this->hide();
+//    this->hide();
     saldowindow *objSaldo = new saldowindow(this);
     objSaldo->setIdTili(idtili);
     objSaldo->setToken(token);
@@ -79,7 +79,7 @@ void MainMenu::btnSaldoSlot(){
 }
 
 void MainMenu::btnAsiakastiedotSlot(){
-    this->hide();
+//    this->hide();
     asiakastiedotwindow *objAsiakastiedot = new asiakastiedotwindow(this);
     objAsiakastiedot->setIdTili(idtili);
     objAsiakastiedot->setToken(token);
@@ -87,4 +87,12 @@ void MainMenu::btnAsiakastiedotSlot(){
     objAsiakastiedot->exec();
     this->show();
 
+}
+
+void MainMenu::btnLogoutSlot()
+{
+    // Asetetaan tokenin ja idTilin arvot kelvottomiksi
+    this->setIdtili(-1);
+    this->setToken(NULL);
+    this->close();
 }

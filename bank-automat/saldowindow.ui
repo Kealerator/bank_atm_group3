@@ -10,8 +10,26 @@
     <height>500</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>500</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Saldo</string>
   </property>
   <widget class="QPushButton" name="btnReturn">
    <property name="geometry">
@@ -26,27 +44,77 @@
     <string>Takaisin</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labelFname">
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>80</y>
-     <width>101</width>
-     <height>31</height>
+     <x>201</x>
+     <y>206</y>
+     <width>73</width>
+     <height>21</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>Sukunimi</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>201</x>
+     <y>151</y>
+     <width>60</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Etunimi</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>201</x>
+     <y>261</y>
+     <width>43</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Saldo</string>
    </property>
   </widget>
   <widget class="QLabel" name="labelLname">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>140</y>
-     <width>101</width>
-     <height>31</height>
+     <x>404</x>
+     <y>206</y>
+     <width>261</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -55,53 +123,39 @@
   <widget class="QLabel" name="labelSaldo">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>200</y>
-     <width>101</width>
-     <height>31</height>
+     <x>404</x>
+     <y>261</y>
+     <width>261</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="text">
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="labelFname">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>90</y>
-     <width>49</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Etunimi</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>150</y>
-     <width>49</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Sukunimi</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>200</y>
-     <width>61</width>
+     <x>404</x>
+     <y>151</y>
+     <width>261</width>
      <height>21</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
-    <string>Saldo</string>
+    <string>TextLabel</string>
    </property>
   </widget>
  </widget>
