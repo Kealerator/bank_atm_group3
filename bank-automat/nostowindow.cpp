@@ -8,6 +8,11 @@ NostoWindow::NostoWindow(QWidget *parent)
 {
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
+
+    inaktiivisuusAjastin = new QTimer(this);
+    inaktiivisuusAjastin->setInterval(20000);
+    connect(inaktiivisuusAjastin, &QTimer::timeout, this, &NostoWindow::aikakatkaisu);
+    inaktiivisuusAjastin->start();
     connect(manager, &QNetworkAccessManager::finished, this, &NostoWindow::vastaus);
     connect(ui->btnReturn, &QPushButton::clicked, this, &NostoWindow::btnTakaisinSlot);
     connect (ui->btn20, &QPushButton::clicked, this, &NostoWindow::nosta20);
@@ -134,6 +139,19 @@ void NostoWindow::nostaMuuSumma()
     }
 
     lahetaNostoPyynto(summa);
+}
+
+void NostoWindow::aikakatkaisu()
+{
+    inaktiivisuusAjastin->stop();
+
+    token.clear();
+
+    this->hide();
+
+    QWidget *parent = parentWidget();
+    if (parent)
+        parent->show();
 }
 
 int NostoWindow::getIdtili() const
