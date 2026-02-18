@@ -13,8 +13,10 @@ NostoWindow::NostoWindow(QWidget *parent)
     inaktiivisuusAjastin->setInterval(20000);
     connect(inaktiivisuusAjastin, &QTimer::timeout, this, &NostoWindow::aikakatkaisu);
     inaktiivisuusAjastin->start();
+
     connect(manager, &QNetworkAccessManager::finished, this, &NostoWindow::vastaus);
     connect(ui->btnReturn, &QPushButton::clicked, this, &NostoWindow::btnTakaisinSlot);
+
     connect (ui->btn20, &QPushButton::clicked, this, &NostoWindow::nosta20);
     connect (ui->btn40, &QPushButton::clicked, this, &NostoWindow::nosta40);
     connect (ui->btn50, &QPushButton::clicked, this, &NostoWindow::nosta50);
@@ -22,6 +24,14 @@ NostoWindow::NostoWindow(QWidget *parent)
     connect (ui->btn100, &QPushButton::clicked, this, &NostoWindow::nosta100);
     connect (ui->btn200, &QPushButton::clicked, this, &NostoWindow::nosta200);
     connect(ui->btnNostaMuu, &QPushButton::clicked, this, &NostoWindow::nostaMuuSumma);
+
+    connect(ui->btn20, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
+    connect(ui->btn40, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
+    connect(ui->btn50, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
+    connect(ui->btn80, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
+    connect(ui->btn100, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
+    connect(ui->btn200, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
+    connect(ui->btnNostaMuu, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
 }
 
 NostoWindow::~NostoWindow()
@@ -153,6 +163,13 @@ void NostoWindow::aikakatkaisu()
     if (parent)
         parent->show();
 }
+
+void NostoWindow::nollaaAjastin()
+{
+    inaktiivisuusAjastin->start();
+}
+
+
 
 int NostoWindow::getIdtili() const
 {

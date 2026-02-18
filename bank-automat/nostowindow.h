@@ -36,6 +36,7 @@ private slots:
     void nosta200();
     void nostaMuuSumma();
     void aikakatkaisu();
+    void nollaaAjastin();
 
 private:
     Ui::NostoWindow *ui;
