@@ -8,6 +8,11 @@ saldowindow::saldowindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->btnReturn, &QPushButton::clicked, this, &::saldowindow::btnReturnSlot);
+
+    inactivityTimer = new QTimer(this);
+    inactivityTimer->setInterval(10000);
+    connect(inactivityTimer, &QTimer::timeout, this, &saldowindow::timeout);
+
     manager = new QNetworkAccessManager(this);
 
 
@@ -19,6 +24,7 @@ void saldowindow::setIdTili(int newIdTili)
 }
 
 void saldowindow::requestSaldo(){
+    resetTimer();
     qDebug() << "idTili:" << idTili;
 
     QString base_url =Environment::base_url()+"tili/saldo/" + QString::number(idTili);
@@ -43,6 +49,20 @@ saldowindow::~saldowindow()
     delete ui;
 }
 
+void saldowindow::timeout()
+{
+    inactivityTimer->stop();
+
+    token.clear();
+
+    this->hide();
+
+    QWidget *parent = parentWidget();
+    if (parent)
+        parent->show();
+}
+
+
 void saldowindow::saldoSlot()
 {
     QByteArray response = reply->readAll();
@@ -56,13 +76,16 @@ void saldowindow::saldoSlot()
     ui->labelSaldo->setText(QString::number(jsonObject["saldo"].toString().toDouble(),'f', 2));
 
     reply->deleteLater();
+
 }
 
-
-
-
+void saldowindow::resetTimer()
+{
+    inactivityTimer->start();
+}
 
 void saldowindow::btnReturnSlot(){
+    inactivityTimer->stop();
     this->hide();
 }
 

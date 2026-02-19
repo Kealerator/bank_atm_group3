@@ -8,6 +8,9 @@ asiakastiedotwindow::asiakastiedotwindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->btnReturn, &QPushButton::clicked, this, &::asiakastiedotwindow::btnReturnSlot);
+    inactivityTimer = new QTimer(this);
+    inactivityTimer->setInterval(10000);
+    connect(inactivityTimer, &QTimer::timeout, this, &asiakastiedotwindow::timeout);
     manager = new QNetworkAccessManager(this);
 }
 
@@ -23,6 +26,7 @@ void asiakastiedotwindow::setIdTili(int newIdTili)
 
 void asiakastiedotwindow::requestAsiakastiedot()
 {
+    resetTimer();
     qDebug() << "idTili:" << idTili;
 
     QString base_url =Environment::base_url()+"asiakas/tiedot/" + QString::number(idTili);
@@ -43,7 +47,21 @@ void asiakastiedotwindow::setToken(const QString &newToken)
 
 void asiakastiedotwindow::btnReturnSlot()
 {
+    inactivityTimer->stop();
 this->close();
+}
+
+void asiakastiedotwindow::timeout()
+{
+    inactivityTimer->stop();
+
+    token.clear();
+
+    this->hide();
+
+    QWidget *parent = parentWidget();
+    if (parent)
+        parent->show();
 }
 
 void asiakastiedotwindow::asiakastiedotSlot()
@@ -61,4 +79,9 @@ void asiakastiedotwindow::asiakastiedotSlot()
     ui->labelPnumber->setText(jsonObject["puhelinnumero"].toString());
 
     reply->deleteLater();
+}
+
+void asiakastiedotwindow::resetTimer()
+{
+    inactivityTimer->start();
 }
