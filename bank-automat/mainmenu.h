@@ -34,6 +34,7 @@ private slots:
     void btnTapahtumatSlot();
     void btnSaldoSlot();
     void btnAsiakastiedotSlot();
+    void btnLogoutSlot();
 
 private:
     Ui::MainMenu *ui;

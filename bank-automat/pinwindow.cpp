@@ -96,17 +96,20 @@ void PINWindow::btnSignInSlot()
 
 void PINWindow::loginAction()
 {
+// Luodaan virheikkuna mahdollisia virheitä varten
+
+    QMessageBox *msgDialog = new QMessageBox(this);
+    msgDialog->setStandardButtons(QMessageBox::Ok);
+    msgDialog->setIcon(QMessageBox::Information);
 
 
     QByteArray responseData=reply->readAll();
     if(responseData=="-4078" || responseData.length()==0){
+        msgDialog->setWindowTitle("Yhteysvirhe");
+        msgDialog->setText("Virhe verkkoyhteydessä!");
+        msgDialog->show();
 
-              QMessageBox::information(
-                this,
-                tr("Yhteysvirhe"),
-                tr("Virhe verkkoyhteydessä!"));
-
-                this->close();
+        this->close();
     }
     else {
         QJsonDocument jsonDoc=QJsonDocument::fromJson(responseData);
@@ -119,11 +122,6 @@ void PINWindow::loginAction()
 
             int idtili = jsonObject["idtili"].toInt();
 
-             QMessageBox::information(
-                this,
-                tr("Pankkiautomaatti"),
-                tr("Tunnistautuminen onnistui!"));
-
 
 
             // TÄNNE SEURAAVA MENU
@@ -132,20 +130,17 @@ void PINWindow::loginAction()
             mainMenu->setToken(token);
 
 
+            this->close();
+            mainMenu->exec();
 
-            mainMenu->show();
-
-
-             this->hide();
         }
         else {
 
             ui->linePIN->clear();
 
-            QMessageBox::information(
-                this,
-                tr("Pankkiautomaatti"),
-                tr("Tunnus ja PIN eivät täsmää.") );
+            msgDialog->setWindowTitle("Virhe kirjautumisessa");
+            msgDialog->setText("Virheellinen tunnistekoodi tai PIN!");
+            msgDialog->show();
 
             this->close();
         }

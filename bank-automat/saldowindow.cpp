@@ -63,7 +63,7 @@ void saldowindow::saldoSlot()
 
 
 void saldowindow::btnReturnSlot(){
-    this->close();
+    this->hide();
 }
 
 

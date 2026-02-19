@@ -9,9 +9,7 @@ tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
 {
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
-    connect(ui->btnPoistu, &QPushButton::clicked, this, &tilitapahtumatwindow::btnPoistuslot);
-   // connect(ui->btnVasen, &QPushButton::clicked, this &tilitapahtumatwindow::btnVasenSlot);
-    //connect(ui->btnOikea, &QPushButton::clicked, this &tilitapahtumatwindow::btnOikeaSlot);
+    connect(ui->btnReturn, &QPushButton::clicked, this, &tilitapahtumatwindow::btnPoistuslot);
 }
 
 tilitapahtumatwindow::~tilitapahtumatwindow()

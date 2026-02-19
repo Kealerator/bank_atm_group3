@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style.qss</file>
+        <file>images/bank_icon_80.png</file>
+        <file>images/warning_scaled.png</file>
+    </qresource>
+</RCC>

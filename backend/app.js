@@ -5,7 +5,6 @@ var logger = require('morgan');
 const jwt = require('jsonwebtoken');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 
 const asiakasRouter = require('./routes/asiakas');
@@ -33,7 +32,6 @@ app.use('/login', loginRouter);
 
 // Suojatut
 app.use(authenticateToken);
-app.use('/users', usersRouter);
 app.use('/asiakas', asiakasRouter);
 app.use('/kortti', korttiRouter);
 app.use('/tili', tiliRouter);

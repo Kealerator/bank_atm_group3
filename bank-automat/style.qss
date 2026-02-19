@@ -1,0 +1,90 @@
+QWidget {
+    background: url("../images/bank_icon_80.png") no-repeat, center;
+    background-origin: content;
+
+    font-family: "Segoe UI";
+    font-weight: bold;
+    color: white;
+}
+QGridLayout {
+        background: transparent;
+}
+QLabel {
+    background: transparent;
+}
+
+QWidget #labelTitle {
+    font: 700 24pt "Segoe UI";
+    text-align: center;
+}
+
+QWidget #btnLogout {
+        background-color: #B01212;
+}
+QWidget #btnLogout:hover{
+    background-color: #E71818;
+}
+
+QWidget #btnLogout:hover:pressed{
+    background-color: #941010;
+}
+
+QWidget #btnReturn {
+        background-color: #B01212;
+}
+QWidget #btnReturn:hover{
+    background-color: #E71818;
+}
+
+QWidget #btnReturn:hover:pressed{
+    background-color: #941010;
+}
+
+QPushButton {
+    background: transparent;
+    color: white;
+    background-color: #3838C7;
+    border-radius:12px;
+
+}
+
+QPushButton:hover {
+    background-color: #5C5CD1;
+    border: 1px solid black;
+}
+
+QPushButton:hover:pressed {
+    background-color: #24247F;
+}
+
+QMessageBox {
+    background: url("../images/warning_scaled.png") no-repeat, center;
+    background-origin: content;
+    border: 1px solid #555;
+    color: white;
+    font-family: "Segoe UI";
+    font-weight: bold;
+}
+
+
+QMessageBox QPushButton{
+    min-width: 50px;
+    min-height: 30px;
+
+    max-width: 50px;
+    max-height: 30px;
+
+    background-color: #B01212;
+}
+QMessageBox QPushButton:hover {
+    background-color: #E71818;
+}
+
+QMessageBox QLabel {
+    padding: 20px;
+    alignment: left;
+}
+
+
+
+
