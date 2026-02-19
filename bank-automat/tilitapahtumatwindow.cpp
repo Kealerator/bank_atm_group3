@@ -9,6 +9,12 @@ tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
 {
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
+
+    inaktiivisuusAjastin = new QTimer(this);
+    inaktiivisuusAjastin->setInterval(10000);
+    connect(inaktiivisuusAjastin, QTimer::timeout, this, &tilitapahtumatwindow::aikakatkaisu);
+    inaktiivisuusAjastin->start();
+
     connect(ui->btnReturn, &QPushButton::clicked, this, &tilitapahtumatwindow::btnPoistuslot);
 }
 
@@ -86,5 +92,21 @@ void tilitapahtumatwindow::btnVasenSlot()
 void tilitapahtumatwindow::btnOikeaSlot()
 {
 
+}
+
+void tilitapahtumatwindow::aikakatkaisu()
+{
+    inaktiivisuusAjastin->stop();
+    token.clear();
+    this->hide();
+
+    QWidget *parent = parentWidget();
+    if (parent)
+        parent->show();
+}
+
+void tilitapahtumatwindow::nollaaAjastin()
+{
+    inaktiivisuusAjastin->start();
 }
 

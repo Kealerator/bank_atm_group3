@@ -8,6 +8,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include "tilitapahtumat.h"
+#include <QTimer>
 
 namespace Ui {
 class tilitapahtumatwindow;
@@ -30,6 +31,8 @@ private slots:
     void btnPoistuslot();
     void btnVasenSlot();
     void btnOikeaSlot();
+    void aikakatkaisu();
+    void nollaaAjastin();
 
 
 
@@ -40,6 +43,7 @@ private:
     QString token;
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
+    QTimer *inaktiivisuusAjastin;
 };
 
 #endif // TILITAPAHTUMATWINDOW_H
