@@ -21,8 +21,6 @@ public:
     explicit tilitapahtumatwindow(QWidget *parent = nullptr);
     ~tilitapahtumatwindow();
 
-    void setTilitapahtumatwindow(const QByteArray &newtilitapahtumatwindow);
-
     void setToken(const QString &newToken);
     void setIdtili(int newIdtili);
     void btnTapahtumatClicked();
@@ -30,6 +28,9 @@ public:
 
 private slots:
     void btnPoistuslot();
+    void btnVasenSlot();
+    void btnOikeaSlot();
+
 
 
 
@@ -39,7 +40,6 @@ private:
     QString token;
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
-    QByteArray Tilitapahtumatwindow;
 };
 
 #endif // TILITAPAHTUMATWINDOW_H

@@ -10,6 +10,8 @@ tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
     connect(ui->btnPoistu, &QPushButton::clicked, this, &tilitapahtumatwindow::btnPoistuslot);
+   // connect(ui->btnVasen, &QPushButton::clicked, this &tilitapahtumatwindow::btnVasenSlot);
+    //connect(ui->btnOikea, &QPushButton::clicked, this &tilitapahtumatwindow::btnOikeaSlot);
 }
 
 tilitapahtumatwindow::~tilitapahtumatwindow()
@@ -43,6 +45,9 @@ void tilitapahtumatwindow::Tilitapahtumatslot()
             listTilitapahtumat.append(tilitapahtuma);
         }
     }
+    if (listTilitapahtumat.size() > 10) {
+        listTilitapahtumat = QVector<tilitapahtumat>(listTilitapahtumat.end() -10, listTilitapahtumat.end());
+    }
 
     auto *tableModel = new QStandardItemModel(listTilitapahtumat.size(), 4, this);
     tableModel->setHorizontalHeaderLabels({ tr("tilinumero"), tr("tapahtumat"), tr("summa"), tr("ajankohta") });
@@ -73,5 +78,15 @@ void tilitapahtumatwindow::btnPoistuslot()
 {
     this->parentWidget()->show();
     this->close();
+}
+
+void tilitapahtumatwindow::btnVasenSlot()
+{
+
+}
+
+void tilitapahtumatwindow::btnOikeaSlot()
+{
+
 }
 
