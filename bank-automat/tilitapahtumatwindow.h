@@ -26,6 +26,7 @@ public:
     void setIdtili(int newIdtili);
     void btnTapahtumatClicked();
     void Tilitapahtumatslot();
+    void PäivitäTapahtumat(const QVector<tilitapahtumat>& kaikkiTilitapahtumat);
 
 private slots:
     void btnPoistuslot();
@@ -44,6 +45,9 @@ private:
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QTimer *inaktiivisuusAjastin;
+    QVector<tilitapahtumat> kaikkitilitapahtumat;
+    QVector<tilitapahtumat> listTilitapahtumat;
+    int nykyinenIndeksi;
 };
 
 #endif // TILITAPAHTUMATWINDOW_H

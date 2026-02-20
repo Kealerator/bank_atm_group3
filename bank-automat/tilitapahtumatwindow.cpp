@@ -6,16 +6,19 @@
 tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::tilitapahtumatwindow)
+    , nykyinenIndeksi(0)
 {
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
 
     inaktiivisuusAjastin = new QTimer(this);
-    inaktiivisuusAjastin->setInterval(10000);
+    inaktiivisuusAjastin->setInterval(900000);
     connect(inaktiivisuusAjastin, QTimer::timeout, this, &tilitapahtumatwindow::aikakatkaisu);
     inaktiivisuusAjastin->start();
 
     connect(ui->btnReturn, &QPushButton::clicked, this, &tilitapahtumatwindow::btnPoistuslot);
+    connect(ui->btnOikea, &QPushButton::clicked, this, &tilitapahtumatwindow::btnOikeaSlot);
+    connect(ui->btnVasen, &QPushButton::clicked, this, &tilitapahtumatwindow::btnVasenSlot);
 }
 
 tilitapahtumatwindow::~tilitapahtumatwindow()
@@ -34,6 +37,16 @@ void tilitapahtumatwindow::btnTapahtumatClicked()
 
 }
 
+/*void tilitapahtumatwindow::updateTapahtumat()
+{
+    int end = nykyinenIndeksi + 10;
+    if (end > kaikkitilitapahtumat.size()) {
+        end = kaikkitilitapahtumat.size();
+    }
+}
+*/
+
+
 void tilitapahtumatwindow::Tilitapahtumatslot()
 {
     QByteArray response = reply->readAll();
@@ -42,16 +55,21 @@ void tilitapahtumatwindow::Tilitapahtumatslot()
     QJsonDocument json_doc = QJsonDocument::fromJson(response);
     QJsonArray json_array=json_doc.array();
 
-    QVector<tilitapahtumat> listTilitapahtumat;
+    QVector<tilitapahtumat> kaikkiTilitapahtumat;
     for (const QJsonValue &value : json_array) {
         if (value.isObject()) {
             tilitapahtumat tilitapahtuma = tilitapahtumat::mapJson(value.toObject());
-            listTilitapahtumat.append(tilitapahtuma);
+            kaikkiTilitapahtumat.append(tilitapahtuma);
+            }
         }
-    }
-    if (listTilitapahtumat.size() > 10) {
-        listTilitapahtumat = QVector<tilitapahtumat>(listTilitapahtumat.end() -10, listTilitapahtumat.end());
-    }
+
+   /* if (listTilitapahtumat.size() > 10) {
+        listTilitapahtumat = QVector<tilitapahtumat>(listTilitapahtumat.end() - 10, listTilitapahtumat.end());
+    }*/
+
+   // esilläolevtatilitapahtumat = QVector<tilitapahtumat>(kaikkitilitapahtumat.begin() + nykyinenIndeksi, kaikkitilitapahtumat.begin() + std::end);
+
+    PäivitäTapahtumat(kaikkiTilitapahtumat);
 
     auto *tableModel = new QStandardItemModel(listTilitapahtumat.size(), 4, this);
     tableModel->setHorizontalHeaderLabels({ tr("tilinumero"), tr("tapahtumat"), tr("summa"), tr("ajankohta") });
@@ -66,6 +84,17 @@ void tilitapahtumatwindow::Tilitapahtumatslot()
     ui->tilitapahtumatTable->verticalHeader()->setVisible(false);
     ui->tilitapahtumatTable->resizeColumnsToContents();
     reply->deleteLater();
+}
+
+void tilitapahtumatwindow::PäivitäTapahtumat(const QVector<tilitapahtumat>& kaikkiTilitapahtumat)
+{
+    int end = nykyinenIndeksi + 10;
+    if (end > kaikkiTilitapahtumat.size()) {
+        end = kaikkiTilitapahtumat.size();
+    }
+    listTilitapahtumat = QVector<tilitapahtumat>
+    (kaikkiTilitapahtumat.begin() + nykyinenIndeksi,
+    kaikkiTilitapahtumat.begin() + end);
 }
 
 void tilitapahtumatwindow::setToken(const QString &newToken)
@@ -86,12 +115,20 @@ void tilitapahtumatwindow::btnPoistuslot()
 
 void tilitapahtumatwindow::btnVasenSlot()
 {
+    if (nykyinenIndeksi - 10 >= 0) {
+        nykyinenIndeksi -= 10;
+        PäivitäTapahtumat(kaikkitilitapahtumat);
 
+    }
 }
 
 void tilitapahtumatwindow::btnOikeaSlot()
 {
+    if (nykyinenIndeksi + 10 <kaikkitilitapahtumat.size()) {
+        nykyinenIndeksi += 10;
+        PäivitäTapahtumat(kaikkitilitapahtumat);
 
+    }
 }
 
 void tilitapahtumatwindow::aikakatkaisu()
