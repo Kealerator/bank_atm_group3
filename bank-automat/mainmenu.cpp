@@ -5,12 +5,20 @@
 #include "saldowindow.h"
 #include "asiakastiedotwindow.h"
 
+#include <QMessageBox>
+
 
 MainMenu::MainMenu(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MainMenu)
 {
     ui->setupUi(this);
+
+    inaktiivisuusAjastin = new QTimer(this);
+    inaktiivisuusAjastin->setInterval(30000);
+    connect(inaktiivisuusAjastin, &QTimer::timeout, this, &MainMenu::aikakatkaisu);
+    inaktiivisuusAjastin->start();
+
     connect(ui->btnNosto, &QPushButton::clicked, this, &MainMenu::btnNostoSlot);
     connect(ui->btnTapahtumat, &QPushButton::clicked, this, &MainMenu::btnTapahtumatSlot);
     connect(ui->btnSaldo, &QPushButton::clicked, this, &MainMenu::btnSaldoSlot);
@@ -95,4 +103,24 @@ void MainMenu::btnLogoutSlot()
     this->setIdtili(-1);
     this->setToken(NULL);
     this->close();
+}
+
+void MainMenu::aikakatkaisu()
+{
+    inaktiivisuusAjastin->stop();
+
+    this->btnLogoutSlot();
+
+    QMessageBox *msgDialog = new QMessageBox(this);
+    msgDialog->setStandardButtons(QMessageBox::Ok);
+    msgDialog->setIcon(QMessageBox::Information);
+
+    msgDialog->setWindowTitle("Aikakatkaisu");
+    msgDialog->setText("Yhteys verkkopalvelimeen katkaistiin inaktiivisuuden vuoksi!");
+    msgDialog->show();
+}
+
+void MainMenu::nollaaAjastin()
+{
+    inaktiivisuusAjastin->start();
 }
