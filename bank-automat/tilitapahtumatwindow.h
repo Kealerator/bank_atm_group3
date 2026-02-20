@@ -8,6 +8,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include "tilitapahtumat.h"
+#include <QTimer>
 
 namespace Ui {
 class tilitapahtumatwindow;
@@ -21,15 +22,19 @@ public:
     explicit tilitapahtumatwindow(QWidget *parent = nullptr);
     ~tilitapahtumatwindow();
 
-    void setTilitapahtumatwindow(const QByteArray &newtilitapahtumatwindow);
-
     void setToken(const QString &newToken);
     void setIdtili(int newIdtili);
     void btnTapahtumatClicked();
     void Tilitapahtumatslot();
+    void PäivitäTapahtumat(const QVector<tilitapahtumat>& kaikkiTilitapahtumat);
 
 private slots:
     void btnPoistuslot();
+    void btnVasenSlot();
+    void btnOikeaSlot();
+    void aikakatkaisu();
+    void nollaaAjastin();
+
 
 
 
@@ -39,7 +44,10 @@ private:
     QString token;
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
-    QByteArray Tilitapahtumatwindow;
+    QTimer *inaktiivisuusAjastin;
+    QVector<tilitapahtumat> kaikkitilitapahtumat;
+    QVector<tilitapahtumat> listTilitapahtumat;
+    int nykyinenIndeksi;
 };
 
 #endif // TILITAPAHTUMATWINDOW_H
