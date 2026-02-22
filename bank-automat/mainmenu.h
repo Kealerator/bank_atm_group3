@@ -36,11 +36,15 @@ private slots:
     void btnAsiakastiedotSlot();
     void btnLogoutSlot();
 
+    void aikakatkaisu();
+    void nollaaAjastin();
+
 private:
     Ui::MainMenu *ui;
     QString token;
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
+    QTimer *inaktiivisuusAjastin;
 
     int idtili;
 };
