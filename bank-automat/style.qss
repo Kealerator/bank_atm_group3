@@ -6,9 +6,27 @@ QWidget {
     font-weight: bold;
     color: white;
 }
-QGridLayout {
-        background: transparent;
+
+QWidget #NostoWindow{
+    background: url("../images/withdraw.png") no-repeat, center;
+    background-origin: content;
 }
+
+QWidget #asiakastiedotwindow {
+    background: url("../images/customer.png") no-repeat, center;
+    background-origin: content;
+}
+
+QWidget #saldowindow {
+    background: url("../images/saldo.png") no-repeat, center;
+    background-origin: content;
+}
+
+QWidget #tilitapahtumatwindow {
+    background: url("../images/transactions.png") no-repeat, center;
+    background-origin: content;
+}
+
 QLabel {
     background: transparent;
 }
