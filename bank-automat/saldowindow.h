@@ -9,6 +9,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QTimer>
 
 namespace Ui {
 class saldowindow;
@@ -34,12 +35,15 @@ private:
     QNetworkReply *reply;
     int idTili;
     QString token;
+    QTimer *inactivityTimer;
 
 
 
 private slots:
     void btnReturnSlot();
     void saldoSlot();
+    void timeout();
+    void resetTimer();
 };
 
 #endif // SALDOWINDOW_H
