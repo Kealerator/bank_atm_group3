@@ -6,15 +6,18 @@
 tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::tilitapahtumatwindow)
-    , nykyinenIndeksi(0)
+    , nykyinenIndeksi(0) // Asetetaan nykyinen taulun indekis nolla
 {
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
 
+    //Alustetaan ajastin
     inaktiivisuusAjastin = new QTimer(this);
-    inaktiivisuusAjastin->setInterval(900000);
+    inaktiivisuusAjastin->setInterval(10000); //Asetetaan ajastin 10 sekunnin
     connect(inaktiivisuusAjastin, QTimer::timeout, this, &tilitapahtumatwindow::aikakatkaisu);
     inaktiivisuusAjastin->start();
+
+
 
     connect(ui->btnReturn, &QPushButton::clicked, this, &tilitapahtumatwindow::btnPoistuslot);
     connect(ui->btnOikea, &QPushButton::clicked, this, &tilitapahtumatwindow::btnOikeaSlot);
@@ -27,7 +30,8 @@ tilitapahtumatwindow::~tilitapahtumatwindow()
 }
 
 void tilitapahtumatwindow::btnTapahtumatClicked()
-{
+{   // Käsittelee tilitpahtumien napautuksia
+
     QString url =Environment::base_url()+"tilitapahtumat/tili/"+QString::number(idtili);
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -37,18 +41,9 @@ void tilitapahtumatwindow::btnTapahtumatClicked()
 
 }
 
-/*void tilitapahtumatwindow::updateTapahtumat()
-{
-    int end = nykyinenIndeksi + 10;
-    if (end > kaikkitilitapahtumat.size()) {
-        end = kaikkitilitapahtumat.size();
-    }
-}
-*/
-
 
 void tilitapahtumatwindow::Tilitapahtumatslot()
-{
+{   //Käsitelee saapuneet tilitapahtumat
     QByteArray response = reply->readAll();
     qDebug() << "Tilitapahtumat: " << response;
 
@@ -62,12 +57,6 @@ void tilitapahtumatwindow::Tilitapahtumatslot()
             kaikkiTilitapahtumat.append(tilitapahtuma);
             }
         }
-
-   /* if (listTilitapahtumat.size() > 10) {
-        listTilitapahtumat = QVector<tilitapahtumat>(listTilitapahtumat.end() - 10, listTilitapahtumat.end());
-    }*/
-
-   // esilläolevtatilitapahtumat = QVector<tilitapahtumat>(kaikkitilitapahtumat.begin() + nykyinenIndeksi, kaikkitilitapahtumat.begin() + std::end);
 
     PäivitäTapahtumat(kaikkiTilitapahtumat);
 
@@ -87,7 +76,8 @@ void tilitapahtumatwindow::Tilitapahtumatslot()
 }
 
 void tilitapahtumatwindow::PäivitäTapahtumat(const QVector<tilitapahtumat>& kaikkiTilitapahtumat)
-{
+{   // Päivittää näkyvät tilitapahtumat käyttäjän nappien painaluksen perusteella
+    // kaikkiTilitapahtumat Listaa kaikista tilitapahtumista
     int end = nykyinenIndeksi + 10;
     if (end > kaikkiTilitapahtumat.size()) {
         end = kaikkiTilitapahtumat.size();
@@ -108,13 +98,15 @@ void tilitapahtumatwindow::setIdtili(int newIdtili)
 }
 
 void tilitapahtumatwindow::btnPoistuslot()
-{
+{   // Käyttäjä nappia painatessa poistuu tapahtumat ikkunasta
     this->parentWidget()->show();
     this->close();
 }
 
 void tilitapahtumatwindow::btnVasenSlot()
-{
+
+{   //Vähentää seuraavat kymmenen tilitapahtumaa tauluun
+
     if (nykyinenIndeksi - 10 >= 0) {
         nykyinenIndeksi -= 10;
         PäivitäTapahtumat(kaikkitilitapahtumat);
@@ -123,7 +115,9 @@ void tilitapahtumatwindow::btnVasenSlot()
 }
 
 void tilitapahtumatwindow::btnOikeaSlot()
-{
+
+{   //Lisää kymmenen seuraavaa tilitapahtumaan tauluun:
+
     if (nykyinenIndeksi + 10 <kaikkitilitapahtumat.size()) {
         nykyinenIndeksi += 10;
         PäivitäTapahtumat(kaikkitilitapahtumat);

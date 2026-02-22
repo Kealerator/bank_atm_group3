@@ -25,11 +25,12 @@ public:
     void setToken(const QString &newToken);
     void setIdtili(int newIdtili);
     void btnTapahtumatClicked();
-    void Tilitapahtumatslot();
+    //void Tilitapahtumatslot();
     void PäivitäTapahtumat(const QVector<tilitapahtumat>& kaikkiTilitapahtumat);
 
 private slots:
     void btnPoistuslot();
+    void Tilitapahtumatslot();
     void btnVasenSlot();
     void btnOikeaSlot();
     void aikakatkaisu();
