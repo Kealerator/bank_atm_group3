@@ -20,7 +20,6 @@ PINWindow::PINWindow(QWidget *parent)
 
 PINWindow::~PINWindow()
 {
-    killTimer(timerId);
     delete ui;
 }
 
@@ -98,6 +97,8 @@ void PINWindow::loginAction()
 {
 // Luodaan virheikkuna mahdollisia virheitä varten
 
+
+
     QMessageBox *msgDialog = new QMessageBox(this);
     msgDialog->setStandardButtons(QMessageBox::Ok);
     msgDialog->setIcon(QMessageBox::Information);
@@ -121,7 +122,6 @@ void PINWindow::loginAction()
             QByteArray tokenBytes = token.toUtf8();
 
             int idtili = jsonObject["idtili"].toInt();
-
 
 
             // TÄNNE SEURAAVA MENU
@@ -153,6 +153,7 @@ void PINWindow::timerEvent(QTimerEvent *event)
 {
 
     if(this->counter == 0){
+        killTimer(timerId);
         this->close();
     } else {
         this->counter -= 1;

@@ -7,6 +7,7 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QTimer>
 
 
 namespace Ui {
@@ -21,10 +22,7 @@ public:
     explicit NostoWindow(QWidget *parent = nullptr);
     ~NostoWindow();
     void setToken(const QString &newToken);
-
-
     void setIdtili(int newIdtili);
-
     int getIdtili() const;
 
 private slots:
@@ -37,6 +35,8 @@ private slots:
     void nosta100();
     void nosta200();
     void nostaMuuSumma();
+    void aikakatkaisu();
+    void nollaaAjastin();
 
 private:
     Ui::NostoWindow *ui;
@@ -44,6 +44,7 @@ private:
     QString token;
     QNetworkAccessManager *manager;
     void lahetaNostoPyynto(int summa);
+    QTimer *inaktiivisuusAjastin;
 };
 
 #endif // NOSTOWINDOW_H
