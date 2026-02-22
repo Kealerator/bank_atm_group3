@@ -9,6 +9,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QTimer>
+
 
 namespace Ui {
 class asiakastiedotwindow;
@@ -33,10 +35,13 @@ private:
     QNetworkReply *reply;
     int idTili;
     QString token;
+    QTimer *inactivityTimer;
 
 private slots:
     void btnReturnSlot();
     void asiakastiedotSlot();
+    void timeout();
+    void resetTimer();
 };
 
 #endif // ASIAKASTIEDOTWINDOW_H
