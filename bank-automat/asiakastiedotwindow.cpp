@@ -102,3 +102,8 @@ void asiakastiedotwindow::timeout()
     if (parent)
         parent->show();
 }
+
+void asiakastiedotwindow::closeEvent(QCloseEvent *event) {
+    inactivityTimer->stop();
+    QDialog::closeEvent(event);
+}

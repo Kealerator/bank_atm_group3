@@ -45,6 +45,7 @@ private:
     QNetworkAccessManager *manager;
     void lahetaNostoPyynto(int summa);
     QTimer *inaktiivisuusAjastin;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // NOSTOWINDOW_H
