@@ -19,7 +19,6 @@ MainMenu::MainMenu(QWidget *parent)
     inaktiivisuusAjastin->setSingleShot(true);
 
     connect(inaktiivisuusAjastin, &QTimer::timeout, this, &MainMenu::aikakatkaisu);
-    connect(this, &QDialog::destroyed, inaktiivisuusAjastin, &QTimer::stop);
 
     inaktiivisuusAjastin->start();
 
