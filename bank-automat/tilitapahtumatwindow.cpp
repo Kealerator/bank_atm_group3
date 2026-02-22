@@ -12,8 +12,8 @@ tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
     manager = new QNetworkAccessManager(this);
 
     inaktiivisuusAjastin = new QTimer(this);
-    inaktiivisuusAjastin->setInterval(900000);
-    connect(inaktiivisuusAjastin, QTimer::timeout, this, &tilitapahtumatwindow::aikakatkaisu);
+    inaktiivisuusAjastin->setInterval(10000);
+    connect(inaktiivisuusAjastin, &QTimer::timeout, this, &tilitapahtumatwindow::aikakatkaisu);
     inaktiivisuusAjastin->start();
 
     connect(ui->btnReturn, &QPushButton::clicked, this, &tilitapahtumatwindow::btnPoistuslot);
