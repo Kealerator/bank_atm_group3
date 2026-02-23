@@ -37,6 +37,7 @@ private:
     QString token;
     QTimer *inactivityTimer;
 
+    void closeEvent(QCloseEvent *event);
 private slots:
     void btnReturnSlot();
     void asiakastiedotSlot();

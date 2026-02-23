@@ -100,3 +100,8 @@ void saldowindow::timeout()
     if (parent)
         parent->show();
 }
+
+void saldowindow::closeEvent(QCloseEvent *event) {
+    inactivityTimer->stop();
+    QDialog::closeEvent(event);
+}

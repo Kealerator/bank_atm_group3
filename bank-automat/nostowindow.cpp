@@ -10,7 +10,7 @@ NostoWindow::NostoWindow(QWidget *parent)
     manager = new QNetworkAccessManager(this);
 
     inaktiivisuusAjastin = new QTimer(this);
-    inaktiivisuusAjastin->setInterval(10000);
+    inaktiivisuusAjastin->setInterval(30000);
     connect(inaktiivisuusAjastin, &QTimer::timeout, this, &NostoWindow::aikakatkaisu);
     inaktiivisuusAjastin->start();
 
@@ -104,36 +104,49 @@ void NostoWindow::vastaus(QNetworkReply *reply)
 
 void NostoWindow::nosta20()
 {
+    inaktiivisuusAjastin->stop();
     lahetaNostoPyynto(20);
+    inaktiivisuusAjastin->start();
 }
 
 void NostoWindow::nosta40()
 {
+    inaktiivisuusAjastin->stop();
     lahetaNostoPyynto(40);
+    inaktiivisuusAjastin->start();
 }
 
 void NostoWindow::nosta50()
 {
+    inaktiivisuusAjastin->stop();
     lahetaNostoPyynto(50);
+    inaktiivisuusAjastin->start();
 }
 
 void NostoWindow::nosta80()
 {
+    inaktiivisuusAjastin->stop();
     lahetaNostoPyynto(80);
+    inaktiivisuusAjastin->start();
 }
 
 void NostoWindow::nosta100()
 {
+    inaktiivisuusAjastin->stop();
     lahetaNostoPyynto(100);
+    inaktiivisuusAjastin->start();
 }
 
 void NostoWindow::nosta200()
 {
+    inaktiivisuusAjastin->stop();
     lahetaNostoPyynto(200);
+    inaktiivisuusAjastin->start();
 }
 
 void NostoWindow::nostaMuuSumma()
 {
+    inaktiivisuusAjastin->stop();
     QString muuSumma = ui->lineEditMuuSumma->text();
 
     if (muuSumma.isEmpty()) {
@@ -149,6 +162,7 @@ void NostoWindow::nostaMuuSumma()
     }
 
     lahetaNostoPyynto(summa);
+    inaktiivisuusAjastin->start();
 }
 
 void NostoWindow::aikakatkaisu()
@@ -193,3 +207,7 @@ void NostoWindow::lahetaNostoPyynto(int summa)
     manager->post(request, body);
 }
 
+void NostoWindow::closeEvent(QCloseEvent *event) {
+    inaktiivisuusAjastin->stop();
+    QDialog::closeEvent(event);
+}

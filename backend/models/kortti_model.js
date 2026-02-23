@@ -37,6 +37,18 @@ const kortti = {
     });
   },
 
+  updatePinAttempts: function (tunnistekoodi, attempts, callback) {
+    return db.query(
+      'update kortti set pinAttempts=? where tunnistekoodi=?',
+      [attempts, tunnistekoodi], callback);
+  },
+
+  updateLastAttempt: function (tunnistekoodi, lastAttempt, callback) {
+    return db.query(
+      'update kortti set LastAttempt=? where tunnistekoodi=?',
+      [lastAttempt, tunnistekoodi], callback);
+  },
+
   getPin: function(tunnistekoodi, callback) {
     return db.query('select pin from kortti where tunnistekoodi=?', [tunnistekoodi], callback);
   }

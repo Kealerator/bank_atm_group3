@@ -39,6 +39,7 @@ private:
 
 
 
+    void closeEvent(QCloseEvent *event);
 private slots:
     void btnReturnSlot();
     void saldoSlot();
