@@ -88,6 +88,8 @@ void tilitapahtumatwindow::Tilitapahtumatslot()
 
 void tilitapahtumatwindow::PäivitäTapahtumat(const QVector<tilitapahtumat>& kaikkiTilitapahtumat)
 {
+    qDebug() << "Tapahtumat päivitetty";
+
     int end = nykyinenIndeksi + 10;
     if (end > kaikkiTilitapahtumat.size()) {
         end = kaikkiTilitapahtumat.size();
@@ -115,20 +117,27 @@ void tilitapahtumatwindow::btnPoistuslot()
 
 void tilitapahtumatwindow::btnVasenSlot()
 {
+    qDebug() << "Vasen nappi painettu!";
+
     if (nykyinenIndeksi - 10 >= 0) {
         nykyinenIndeksi -= 10;
-        PäivitäTapahtumat(kaikkitilitapahtumat);
+        PäivitäTapahtumat(kaikkiTilitapahtumat);
 
     }
 }
 
 void tilitapahtumatwindow::btnOikeaSlot()
 {
-    if (nykyinenIndeksi + 10 <kaikkitilitapahtumat.size()) {
+    qDebug() << "kaikkiTilTap: " << listTilitapahtumat.size();
+    qDebug() << "Oikea nappi painettu!";
+    qDebug() << "Ennen if: " << nykyinenIndeksi;
+
+    if (nykyinenIndeksi + 10 < listTilitapahtumat.size()) {
         nykyinenIndeksi += 10;
-        PäivitäTapahtumat(kaikkitilitapahtumat);
+        PäivitäTapahtumat(kaikkiTilitapahtumat);
 
     }
+    qDebug() << "Jälkeen if: " << nykyinenIndeksi;
 }
 
 void tilitapahtumatwindow::aikakatkaisu()
@@ -147,3 +156,7 @@ void tilitapahtumatwindow::nollaaAjastin()
     inaktiivisuusAjastin->start();
 }
 
+void tilitapahtumatwindow::closeEvent(QCloseEvent *event) {
+    inaktiivisuusAjastin->stop();
+    QDialog::closeEvent(event);
+}

@@ -47,6 +47,7 @@ private:
     QTimer *inaktiivisuusAjastin;
 
     int idtili;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // MAINMENU_H

@@ -130,7 +130,7 @@ void PINWindow::loginAction()
             mainMenu->setToken(token);
 
 
-            this->close();
+            this->hide();
             mainMenu->exec();
 
         }
@@ -138,8 +138,13 @@ void PINWindow::loginAction()
 
             ui->linePIN->clear();
 
+            QJsonDocument json_doc = QJsonDocument::fromJson(responseData);
+            QJsonObject jsonObj = json_doc.object();
+            QString msg = jsonObj["message"].toString();
+
+
             msgDialog->setWindowTitle("Virhe kirjautumisessa");
-            msgDialog->setText("Virheellinen tunnistekoodi tai PIN!");
+            msgDialog->setText(msg);
             msgDialog->show();
 
             this->close();

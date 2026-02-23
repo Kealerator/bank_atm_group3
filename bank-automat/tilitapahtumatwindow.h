@@ -45,9 +45,10 @@ private:
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QTimer *inaktiivisuusAjastin;
-    QVector<tilitapahtumat> kaikkitilitapahtumat;
+    QVector<tilitapahtumat> kaikkiTilitapahtumat;
     QVector<tilitapahtumat> listTilitapahtumat;
     int nykyinenIndeksi;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // TILITAPAHTUMATWINDOW_H
