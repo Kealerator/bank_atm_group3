@@ -9,6 +9,7 @@ NostoWindow::NostoWindow(QWidget *parent)
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
 
+    // Inaktiivisuus ajastimen luominen
     inaktiivisuusAjastin = new QTimer(this);
     inaktiivisuusAjastin->setInterval(10000);
     connect(inaktiivisuusAjastin, &QTimer::timeout, this, &NostoWindow::aikakatkaisu);
@@ -17,6 +18,7 @@ NostoWindow::NostoWindow(QWidget *parent)
     connect(manager, &QNetworkAccessManager::finished, this, &NostoWindow::vastaus);
     connect(ui->btnReturn, &QPushButton::clicked, this, &NostoWindow::btnTakaisinSlot);
 
+    // Nostosummat
     connect (ui->btn20, &QPushButton::clicked, this, &NostoWindow::nosta20);
     connect (ui->btn40, &QPushButton::clicked, this, &NostoWindow::nosta40);
     connect (ui->btn50, &QPushButton::clicked, this, &NostoWindow::nosta50);
@@ -25,6 +27,7 @@ NostoWindow::NostoWindow(QWidget *parent)
     connect (ui->btn200, &QPushButton::clicked, this, &NostoWindow::nosta200);
     connect(ui->btnNostaMuu, &QPushButton::clicked, this, &NostoWindow::nostaMuuSumma);
 
+    // Inaktiivisuus ajastimen nollaus nappien painalluksista
     connect(ui->btn20, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
     connect(ui->btn40, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
     connect(ui->btn50, &QPushButton::clicked, this, &NostoWindow::nollaaAjastin);
@@ -44,36 +47,38 @@ void NostoWindow::setToken(const QString &newToken)
     token = newToken;
 }
 
-
+// Sulkee nostoikkunan napista
 void NostoWindow::btnTakaisinSlot()
 {
     this->hide();
 }
 
+// Palvelimen vastauksen käsittely
 void NostoWindow::vastaus(QNetworkReply *reply)
 {
     QByteArray data = reply->readAll();
     QJsonObject obj = QJsonDocument::fromJson(data).object();
 
+    // Verkkovirheiden tarkistus
     if (reply->error() != QNetworkReply::NoError) {
         ui->labelStatus->setText("Verkkovirhe");
         reply->deleteLater();
         return;
     }
 
-
+    // Jos palvelin palauttaa virheen
     if (obj.contains("success") && !obj["success"].toBool()) {
 
         QString viesti = obj["message"].toString();
         QString teksti = "Virhe: " + viesti;
 
-
+        // Saldon lisäis, jos palvelin palauttaa sen
         if (obj.contains("saldo")) {
             double saldo = obj["saldo"].toDouble();
             teksti += "\nSaldo: " + QString::number(saldo);
         }
 
-
+        // Käytettävissä olevan summan lisäys
         if (obj.contains("käytettävissä")) {
             double kaytettavissa = obj["käytettävissä"].toDouble();
             teksti += "\nKäytettävissä: " + QString::number(kaytettavissa);
@@ -84,15 +89,16 @@ void NostoWindow::vastaus(QNetworkReply *reply)
         return;
     }
 
-
+    // Onnistunut nosto
     QString viesti = obj["message"].toString();
     QString teksti = viesti;
 
+    // Uusi saldo
     if (obj.contains("uusiSaldo")) {
         double saldo = obj["uusiSaldo"].toDouble();
         teksti += "\nSaldo: " + QString::number(saldo);
     }
-
+    // Käytettävissä oleva summa
     if (obj.contains("käytettävissä")) {
         double kaytettavissa = obj["käytettävissä"].toDouble();
         teksti += "\nKäytettävissä: " + QString::number(kaytettavissa);
@@ -102,6 +108,7 @@ void NostoWindow::vastaus(QNetworkReply *reply)
     reply->deleteLater();
 }
 
+// Kiinteät nostosummat napeille
 void NostoWindow::nosta20()
 {
     lahetaNostoPyynto(20);
@@ -132,6 +139,7 @@ void NostoWindow::nosta200()
     lahetaNostoPyynto(200);
 }
 
+// Vapaavalintaisen summan nosto
 void NostoWindow::nostaMuuSumma()
 {
     QString muuSumma = ui->lineEditMuuSumma->text();
@@ -151,6 +159,7 @@ void NostoWindow::nostaMuuSumma()
     lahetaNostoPyynto(summa);
 }
 
+// Aikakatkaisun suoritus
 void NostoWindow::aikakatkaisu()
 {
     inaktiivisuusAjastin->stop();
@@ -159,13 +168,14 @@ void NostoWindow::aikakatkaisu()
 
 }
 
+// Ajastaminen nollaus
 void NostoWindow::nollaaAjastin()
 {
     inaktiivisuusAjastin->start();
 }
 
 
-
+//
 int NostoWindow::getIdtili() const
 {
     return idtili;
@@ -176,7 +186,7 @@ void NostoWindow::setIdtili(int newIdtili)
     idtili = newIdtili;
 }
 
-
+// Nosto tapahtuman POST pyyntö
 void NostoWindow::lahetaNostoPyynto(int summa)
 {
     qDebug() << "NostoWindow idtili =" << idtili;
