@@ -157,6 +157,7 @@ void NostoWindow::nostaMuuSumma()
     inaktiivisuusAjastin->stop();
     QString muuSumma = ui->lineEditMuuSumma->text();
 
+    // Virhesummien tarkistus
     if (muuSumma.isEmpty()) {
         ui->labelStatus->setText("Syötä nostettava summa");
         return;
