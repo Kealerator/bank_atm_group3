@@ -19,6 +19,11 @@ router.post('/', function (request, response) {
         kortti.getOne(tunnistekoodi, function (err, result) {
             if (err) {
                 console.error("Virhe haettaessa PIN yritysten määrää:", err);
+                return response.json({ success: false, message: "Virhe järjestelmässä" });
+            }
+            else if (!result || result.length === 0) {
+                console.log("Korttia ei löytynyt tunnisteella:", tunnistekoodi);
+                return response.json({ success: false, message: "Tunnistekoodi ja PIN eivät täsmää" });
             }
             else {
                 var PINAttempts = result[0].PINAttempts || 0;
