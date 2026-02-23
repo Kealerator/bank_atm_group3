@@ -65,7 +65,7 @@ Tämän projektin tarkoitus oli luoda virtuaalinen pankkiautomaatti. Pankkiautom
 
 
     ```
-    npm install bcryptjs@3.0.3 cookie-parser@1.4.7 debug@2.6.9 express@4.16.4 jsonwebtoken@9.0.3 morgan@1.9.1 mysql2@3.16.0 dotenv@17.2.3
+    npm install 
     ```
 
 - Asenna nodemon työkalu group_3/backend kansioon:
