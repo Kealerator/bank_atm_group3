@@ -3,5 +3,8 @@
         <file>style.qss</file>
         <file>images/bank_icon_80.png</file>
         <file>images/warning_scaled.png</file>
+        <file>images/withdraw.png</file>
+        <file>images/customer.png</file>
+        <file>images/transactions.png</file>
     </qresource>
 </RCC>
