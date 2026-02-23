@@ -7,58 +7,137 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 router.post('/', function (request, response) {
+    // Varmistetaan, että tunnistekoodi ja PIN on lähetetty pyynnössä
     if (request.body.tunnistekoodi && request.body.pin) {
+
+        // Mikäli löytyy niin asetetaan tunnistekoodi ja pin omiksi muuttujiinsa
+
         const tunnistekoodi = request.body.tunnistekoodi;
         const pin = request.body.pin;
-        kortti.getPin(tunnistekoodi, function (err, result) {
+
+        // Ennen kuin haetaan tietokannasta tunnistekoodiin liittyvää PIN:ia, tarkistetaan onko korttiin liittyvän tunnistekoodin yritysten määrä yli 3
+        kortti.getOne(tunnistekoodi, function (err, result) {
             if (err) {
-                response.json(err.errno);
+                console.error("Virhe haettaessa PIN yritysten määrää:", err);
             }
             else {
-                if (result.length > 0) {
-                    bcrypt.compare(pin, result[0].pin, function (err, compareResult) {
-                        const token = generateAccessToken(tunnistekoodi);
-                        if (compareResult) {
+                var PINAttempts = result[0].PINAttempts || 0;
+                console.log("Nykyinen PIN yritysten määrä:", PINAttempts);
+                const lastAttemptTime = result[0].LastAttempt;
+                console.log("Viimeisin yritys tapahtui:", lastAttemptTime);
+                const currentTime = new Date();
+                console.log("Nykyinen aika:", currentTime);
+                const timeDifference = currentTime - new Date(lastAttemptTime);
+                const hoursDifference = timeDifference / (1000 * 60 * 60);
+                console.log("Aikojen välinen ero tunteina:", hoursDifference);
 
-                            // Haetaan korttiin liitetty tili
 
-                            // Haetaan korttiin liitetyn tilin id
-                            kortti_tili.getIdByTunnistekoodi(tunnistekoodi, function (err, result) {
-                                if (err) {
-                                    response.json(err.errno);
-                                }
-                                if (!result || result.length === 0) { 
-                                    return response.json({ success: false, message: "Korttiin liitettyä tiliä ei löytynyt" }); }
-                                else {
-                                    const idtili = result[0].idTili;
 
-                                    // Liitetään löydetty tilin id vastaukseen
-                                    response.setHeader('Content-Type', 'application/json');
-                                    response.json({
-                                        success: true,
-                                        message: "Login OK",
-                                        tunnistekoodi: tunnistekoodi,
-                                        idtili: idtili,
-                                        token: token
-                                    });
-
-                                }
-                            });
+                if (PINAttempts >= 3) {
+                    console.log("PIN yritysten määrä on 3 tai enemmän, estetään kirjautumisyritys");
+                    return response.json({ success: false, message: "Kortti on lukittu liian monen väärän PIN yrityksen vuoksi. Yritä uudestaan myöhemmin." });
+                }
+                // Mikäli yritysten määrä on alle 3, haetaan tietokannasta tunnistekoodiin liittyvä PIN
+                else {
+                    kortti.getPin(tunnistekoodi, function (err, result) {
+                        if (err) {
+                            response.json(err.errno);
                         }
                         else {
-                            console.log("Väärä PIN");
-                            response.json({ "message": "Tunnistekoodi ja PIN eivät täsmää" });
-                        }
+                            // Mikäli tunnistekoodiin liittyvä PIN löytyy tietokannasta, verrataan sitä lähetettyyn PIN:iin
+                            if (result.length > 0) {
 
-                    })
-                }
-                else {
-                    console.log("Tunnistekoodia ei ole");
-                    response.json({ "message": "Tunnistekoodi ja PIN eivät täsmää" });
+                                // Verrataan lähetettyä PIN:ia tietokannasta haettuun PIN:iin bcryptin avulla
+                                bcrypt.compare(pin, result[0].pin, function (err, compareResult) {
+                                    const token = generateAccessToken(tunnistekoodi);
+
+                                    // Mikäli PIN:t täsmää, haetaan korttiin liitetty tili ja palautetaan se vastauksena
+                                    if (compareResult) {
+
+                                        // Haetaan korttiin liitetyn tilin id
+                                        kortti_tili.getIdByTunnistekoodi(tunnistekoodi, function (err, result) {
+                                            if (err) {
+                                                response.json(err.errno);
+                                            }
+                                            if (!result || result.length === 0) {
+                                                return response.json({ success: false, message: "Korttiin liitettyä tiliä ei löytynyt" });
+                                            }
+                                            else {
+                                                const idtili = result[0].idTili;
+
+                                                // Liitetään löydetty tilin id vastaukseen
+                                                response.setHeader('Content-Type', 'application/json');
+                                                response.json({
+                                                    success: true,
+                                                    message: "Login OK",
+                                                    tunnistekoodi: tunnistekoodi,
+                                                    idtili: idtili,
+                                                    token: token
+                                                });
+
+                                            }
+                                        });
+                                    }
+                                    // Mikäli PIN:t eivät täsmää, tarkistetaan yritysten määrä ja päivitetään se tarvittaessa
+                                    else {
+                                        // Haetaan korttiin liittyvän tunnistekoodin yritysten määrä ja viimeisin yritys -aika
+
+                                        // Mikäli viimeisin yritys on tapahtunut 168h sitten, nollataan yritysten määrä
+                                        if (hoursDifference >= 168) {
+                                            console.log("Viimeisin yritys tapahtui yli 168h sitten, asetetaan yritysten määrä 1:ksi");
+                                            kortti.updatePinAttempts(tunnistekoodi, 1, function (err, result) {
+                                                if (err) {
+                                                    console.error("Virhe nollattaessa PIN yritysten määrää:", err);
+                                                } else {
+                                                    console.log("PIN yritysten määrä nollattu 168h jälkeen");
+
+                                                    kortti.updateLastAttempt(tunnistekoodi, currentTime, function (err, result) {
+                                                        if (err) {
+                                                            console.error("Virhe päivittäessä viimeisin yritys -aikaa:", err);
+                                                        } else {
+                                                            console.log("Viimeisin yritys -aika päivitetty");
+                                                            response.json({ success: false, message: "PIN on väärä. Yritä uudestaan." });
+                                                        }
+                                                    });
+
+                                                }
+                                            });
+                                        } else { // Mikäli viimeisin yritys on tapahtunut alle 168h sitten, kasvatetaan yritysten määrää yhdellä
+                                            kortti.updatePinAttempts(tunnistekoodi, PINAttempts + 1, function (err, result) {
+                                                if (err) {
+                                                    console.error("Virhe kasvatettaessa PIN yritysten määrää:", err);
+                                                } else {
+                                                    console.log("PIN yritysten määrä kasvatettu yhdellä");
+
+                                                    kortti.updateLastAttempt(tunnistekoodi, currentTime, function (err, result) {
+                                                        if (err) {
+                                                            console.error("Virhe päivittäessä viimeisin yritys -aikaa:", err);
+                                                        } else {
+                                                            console.log("Viimeisin yritys -aika päivitetty");
+                                                            response.json({ success: false, message: "PIN on väärä. Yritä uudestaan." });
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                       }
+
+                                    }
+                                });
+
+                            }
+                            // Mikäli tunnistekoodiin liittyvää PIN:ia ei löydy tietokannasta, palautetaan virheilmoitus
+                            else {
+                                console.log("Väärä PIN");
+                                response.json({ "message": "Tunnistekoodi ja PIN eivät täsmää" });
+                            }
+
+                        }
+                    });
                 }
             }
-        })
+        });
     }
+    // Mikäli tunnistekoodi tai PIN puuttuu pyynnöstä, palautetaan virheilmoitus
     else {
         console.log("Tunnistekoodi tai PIN puuttuu");
         response.json({ "message": "Tunnistekoodi ja PIN eivät täsmää" });
