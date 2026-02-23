@@ -22,24 +22,16 @@ router.post('/', function (request, response) {
                 return response.json({ success: false, message: "Virhe järjestelmässä" });
             }
             else if (!result || result.length === 0) {
-                console.log("Korttia ei löytynyt tunnisteella:", tunnistekoodi);
-                return response.json({ success: false, message: "Tunnistekoodi ja PIN eivät täsmää" });
+                return response.json({ success: false, message: "Tunnusta ei löytynyt" });
             }
             else {
                 var PINAttempts = result[0].PINAttempts || 0;
-                console.log("Nykyinen PIN yritysten määrä:", PINAttempts);
                 const lastAttemptTime = result[0].LastAttempt;
-                console.log("Viimeisin yritys tapahtui:", lastAttemptTime);
                 const currentTime = new Date();
-                console.log("Nykyinen aika:", currentTime);
                 const timeDifference = currentTime - new Date(lastAttemptTime);
                 const hoursDifference = timeDifference / (1000 * 60 * 60);
-                console.log("Aikojen välinen ero tunteina:", hoursDifference);
-
-
 
                 if (PINAttempts >= 3) {
-                    console.log("PIN yritysten määrä on 3 tai enemmän, estetään kirjautumisyritys");
                     return response.json({ success: false, message: "Kortti on lukittu liian monen väärän PIN yrityksen vuoksi. Yritä uudestaan myöhemmin." });
                 }
                 // Mikäli yritysten määrä on alle 3, haetaan tietokannasta tunnistekoodiin liittyvä PIN
@@ -94,13 +86,11 @@ router.post('/', function (request, response) {
                                                 if (err) {
                                                     console.error("Virhe nollattaessa PIN yritysten määrää:", err);
                                                 } else {
-                                                    console.log("PIN yritysten määrä nollattu 168h jälkeen");
-
+                                                    // Nollataan myös viimeisin yritys -aika nykyhetkeen
                                                     kortti.updateLastAttempt(tunnistekoodi, currentTime, function (err, result) {
                                                         if (err) {
                                                             console.error("Virhe päivittäessä viimeisin yritys -aikaa:", err);
                                                         } else {
-                                                            console.log("Viimeisin yritys -aika päivitetty");
                                                             response.json({ success: false, message: "PIN on väärä. Yritä uudestaan." });
                                                         }
                                                     });
@@ -112,13 +102,10 @@ router.post('/', function (request, response) {
                                                 if (err) {
                                                     console.error("Virhe kasvatettaessa PIN yritysten määrää:", err);
                                                 } else {
-                                                    console.log("PIN yritysten määrä kasvatettu yhdellä");
-
                                                     kortti.updateLastAttempt(tunnistekoodi, currentTime, function (err, result) {
                                                         if (err) {
                                                             console.error("Virhe päivittäessä viimeisin yritys -aikaa:", err);
                                                         } else {
-                                                            console.log("Viimeisin yritys -aika päivitetty");
                                                             response.json({ success: false, message: "PIN on väärä. Yritä uudestaan." });
                                                         }
                                                     });

@@ -10,7 +10,7 @@ NostoWindow::NostoWindow(QWidget *parent)
     manager = new QNetworkAccessManager(this);
 
     inaktiivisuusAjastin = new QTimer(this);
-    inaktiivisuusAjastin->setInterval(10000);
+    inaktiivisuusAjastin->setInterval(30000);
     connect(inaktiivisuusAjastin, &QTimer::timeout, this, &NostoWindow::aikakatkaisu);
     inaktiivisuusAjastin->start();
 

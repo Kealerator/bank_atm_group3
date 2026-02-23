@@ -13,7 +13,7 @@ asiakastiedotwindow::asiakastiedotwindow(QWidget *parent)
 
     //10s aikakatkaisun alustus.
     inactivityTimer = new QTimer(this);
-    inactivityTimer->setInterval(10000);
+    inactivityTimer->setInterval(30000);
 
     //Yhdistetään signaalit luokan slot funktioihin.
     connect(inactivityTimer, &QTimer::timeout, this, &asiakastiedotwindow::timeout);
