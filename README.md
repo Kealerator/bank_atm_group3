@@ -17,6 +17,8 @@ Tämän projektin tarkoitus oli luoda virtuaalinen pankkiautomaatti. Pankkiautom
  - **Tilitapahtumat:** Listaus tilin viimeisimmistä tilitapahtumista.
  - **Käteisen nosto:** Rahan nosto käyttäjän tililtä.
  - **Uloskirjautuminen:** Käyttäjän turvallinen uloskirjautuminen.
+ - **Aikakatkaisu:** Jos inaktiivinen 30 sekuntia niin kirjataan käyttäjä ulos
+ - **PIN-lukitus:** 3 Väärää yritystä lukitsee kortin.
 
 ## Työkalut
 
@@ -55,18 +57,18 @@ Tämän projektin tarkoitus oli luoda virtuaalinen pankkiautomaatti. Pankkiautom
 ## Asennus ja käyttöönotto
 
 ### Asennus:
-- Kloonaa repo tietokoneellesi
+- Kloonaa repo tietokoneellesi:
    ```
   git clone https://github.com/25kmo-project/group_3.git
    ```
-- Asenna riippuvuudet group_3/backend kansioon terminaalissa tai komentorivillä.
+- Asenna riippuvuudet group_3/backend kansioon terminaalissa tai komentorivillä:
 
 
     ```
     npm install bcryptjs@3.0.3 cookie-parser@1.4.7 debug@2.6.9 express@4.16.4 jsonwebtoken@9.0.3 morgan@1.9.1 mysql2@3.16.0 dotenv@17.2.3
     ```
 
-- Asenna nodemon työkalu group_3/backend kansioon.
+- Asenna nodemon työkalu group_3/backend kansioon:
   ```
   npm install nodemon -g
   ```
@@ -77,21 +79,21 @@ Tämän projektin tarkoitus oli luoda virtuaalinen pankkiautomaatti. Pankkiautom
   CREATE USER 'netuser'@'localhost' IDENTIFIED BY 'netpass';
   GRANT ALL PRIVILEGES ON bank_automat.* TO 'netuser'@'localhost';
   ``` 
-- Luo tietokannan rakenne juuresta löytyvällä Dump tiedostolla
+- Luo tietokannan rakenne juuresta löytyvällä Dump tiedostolla:
  
   **MySQL Workbench ohje:**
 
   - Avaa MySQL Workbench ja kirjaudu sisään.
 
-    Valitse vasemmasta laidasta Server-välilehti ja sieltä Data Import.
+  -  Valitse vasemmasta ylälaidasta Server-välilehti ja sieltä Data Import.
 
-    Valitse Import from Self-Contained File ja etsi projektin juuresta löytyvä Dump tiedosto (Dump.sql).
+  -  Valitse Import from Self-Contained File ja etsi projektin juuresta löytyvä Dump tiedosto (Dump.sql).
 
-    Valitse Default Target Schema -valikosta aiemmin luomasi tietokanta bank_automat.
+  -  Valitse Default Target Schema -valikosta aiemmin luomasi tietokanta bank_automat.
 
-    Paina Start Import.
+  -  Paina Start Import.
     
-- Luo .env tiedosto group_3/backend kansioon ja lisää sinne: 
+- Luo uusi tiedosto nimeltä ".env" group_3/backend kansioon ja lisää sinne: 
    ```
    SQL_SERVER="mysql://netuser:netpass@127.0.0.1:3306/bank_automat"
    MY_TOKEN=RAf6OUluNGmHPxUHb9fyO+KHqE3U6enB6lPszO7S/4iJA4589GxhJQtYvAwZL3DecMp9eTPDFkKkiAt8ouxByA==
@@ -99,19 +101,27 @@ Tämän projektin tarkoitus oli luoda virtuaalinen pankkiautomaatti. Pankkiautom
 
  ### Käyttöönotto:
 
- - Siirry terminaalissa tai komentorivillä projektin backend kansioon ja käynnistä palvelin:
+ - Siirry terminaalissa tai komentorivillä projektin backend kansioon group_3/backend ja käynnistä palvelin:
     ```
     nodemon
     ```
    - Tämä käynnistää Node.js palvelimen joka jää kuuntelemaan Qt-sovelluksen lähettämiä pyyntöjä.
 
  - Avaa Qt Creatorilla "bank_automat" projekti ja paina "Run" näppäintä.
- - Kun molemmat osat ovat käynnissä, voit testata sovellusta kirjautumalla sisään:
-   
-   - Syötä käyttöliittymään tietokannasta löytyvä tunnistekoodi (kortin numero).
+ - Kun molemmat osat ovat käynnissä, voit testata sovellusta kirjautumalla sisään testitunnuksilla:
 
-   - Syötä siihen liittyvä PIN-koodi.
-    - Onnistuneen kirjautumisen jälkeen voit käyttää kaikkia pankkitoimintoja.
+   ```
+   Sakari Sakkinen:
+   Tunnistekoodi: 111111
+   PIN: 0000
+
+   Aku Ankka:
+   Tunnistekoodi: 131313
+   PIN: 0000
+   ```
+
+   
+  - Onnistuneen kirjautumisen jälkeen voit käyttää kaikkia pankkitoimintoja.
 
 
 ## Projektin tekijät:
