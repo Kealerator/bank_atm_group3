@@ -29,13 +29,14 @@ router.post('/', function (request, response) {
                 const lastAttemptTime = result[0].LastAttempt;
                 const currentTime = new Date();
 
-                //  Jos lastAttemptTime on null, asetetaan hoursDifference suureksi arvoksi,
-                // jotta yritysten määrä ei nollaudu ja kortti lukitaan 168h jälkeen 
+                // Laske tuntien erotus viimeisimmän yrityksen ja nykyhetken välillä.
+                // Määritellään muuttuja ennen haaroja, jotta sitä voi käyttää myöhemmin.
+                let hoursDifference;
                 if (!lastAttemptTime) {
-                    hoursDifference = 168; // or Infinity
+                    hoursDifference = 168; // tai sopiva suuri arvo
                 } else {
                     const timeDifference = currentTime - new Date(lastAttemptTime);
-                    const hoursDifference = timeDifference / (1000 * 60 * 60);
+                    hoursDifference = timeDifference / (1000 * 60 * 60);
                 }
 
                 if (PINAttempts >= 3) {
