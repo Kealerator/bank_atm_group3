@@ -15,7 +15,7 @@ MainMenu::MainMenu(QWidget *parent)
     ui->setupUi(this);
 
     inaktiivisuusAjastin = new QTimer(this);
-    inaktiivisuusAjastin->setInterval(30000);
+    inaktiivisuusAjastin->setInterval(10000);
     inaktiivisuusAjastin->setSingleShot(true);
 
     connect(inaktiivisuusAjastin, &QTimer::timeout, this, &MainMenu::aikakatkaisu);

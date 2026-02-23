@@ -28,8 +28,15 @@ router.post('/', function (request, response) {
                 var PINAttempts = result[0].PINAttempts || 0;
                 const lastAttemptTime = result[0].LastAttempt;
                 const currentTime = new Date();
-                const timeDifference = currentTime - new Date(lastAttemptTime);
-                const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+                //  Jos lastAttemptTime on null, asetetaan hoursDifference suureksi arvoksi,
+                // jotta yritysten määrä ei nollaudu ja kortti lukitaan 168h jälkeen 
+                if (!lastAttemptTime) {
+                    hoursDifference = 168; // or Infinity
+                } else {
+                    const timeDifference = currentTime - new Date(lastAttemptTime);
+                    const hoursDifference = timeDifference / (1000 * 60 * 60);
+                }
 
                 if (PINAttempts >= 3) {
                     return response.json({ success: false, message: "Kortti on lukittu liian monen väärän PIN yrityksen vuoksi. Yritä uudestaan myöhemmin." });
