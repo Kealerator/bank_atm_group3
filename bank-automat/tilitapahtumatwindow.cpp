@@ -172,6 +172,7 @@ void tilitapahtumatwindow::btnOikeaSlot()
         qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
 
     }
+    qDebug() << "Jälkeen if: " << nykyinenIndeksi;
 }
 
 void tilitapahtumatwindow::aikakatkaisu()
@@ -190,3 +191,7 @@ void tilitapahtumatwindow::nollaaAjastin()
     inaktiivisuusAjastin->start();
 }
 
+void tilitapahtumatwindow::closeEvent(QCloseEvent *event) {
+    inaktiivisuusAjastin->stop();
+    QDialog::closeEvent(event);
+}

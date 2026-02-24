@@ -16,7 +16,10 @@ MainMenu::MainMenu(QWidget *parent)
 
     inaktiivisuusAjastin = new QTimer(this);
     inaktiivisuusAjastin->setInterval(10000);
+    inaktiivisuusAjastin->setSingleShot(true);
+
     connect(inaktiivisuusAjastin, &QTimer::timeout, this, &MainMenu::aikakatkaisu);
+
     inaktiivisuusAjastin->start();
 
     connect(ui->btnNosto, &QPushButton::clicked, this, &MainMenu::btnNostoSlot);
@@ -24,6 +27,7 @@ MainMenu::MainMenu(QWidget *parent)
     connect(ui->btnSaldo, &QPushButton::clicked, this, &MainMenu::btnSaldoSlot);
     connect(ui->btnTiedot, &QPushButton::clicked, this, &MainMenu::btnAsiakastiedotSlot);
     connect(ui->btnLogout, &QPushButton::clicked, this, &MainMenu::btnLogoutSlot);
+
 
 }
 
@@ -58,7 +62,6 @@ void MainMenu::btnNostoSlot()
 void MainMenu::btnTapahtumatSlot()
 {
     inaktiivisuusAjastin->stop();
-    this->hide();
     tilitapahtumatwindow *tapahtumat = new tilitapahtumatwindow(this);
     tapahtumat->setIdtili(idtili);
     tapahtumat->setToken(token);
@@ -131,4 +134,9 @@ void MainMenu::aikakatkaisu()
 void MainMenu::nollaaAjastin()
 {
     inaktiivisuusAjastin->start();
+}
+
+void MainMenu::closeEvent(QCloseEvent *event) {
+    inaktiivisuusAjastin->stop();
+    QDialog::closeEvent(event);
 }

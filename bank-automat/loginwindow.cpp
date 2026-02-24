@@ -24,13 +24,20 @@ LoginWindow::~LoginWindow()
 void LoginWindow::btnContinueSlot()
 {
 
+    // Mikäli käyttäjä yrittää kirjautua sisään tyhjällä tunnistekoodilla
+    // ilmoitetaan siitä käyttäjälle
     if(ui->lineTunnistekoodi->text() == ""){
         ui->labelErrorMsg->setText("Tunnistekoodi ei voi olla tyhjä!");
     }else{
-
+        // Muussa tapauksessa resetoidaan varoituskenttä
         ui->labelErrorMsg->setText("");
+
+        // Luodaan PIN syöttöikkuna ja asetetaan sen sisällä olevaan private
+        // muuttujaan tunnuskoodi talteen
+
         PINWindow *pinQuery = new PINWindow(this);
         pinQuery->setTunniste(ui->lineTunnistekoodi->text());
+
         this->hide();
         pinQuery->exec();
 
