@@ -6,14 +6,13 @@
 tilitapahtumatwindow::tilitapahtumatwindow(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::tilitapahtumatwindow)
-    , nykyinenIndeksi(0) // Asetetaan nykyinen taulun indekis nolla
 {
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
 
     //Alustetaan ajastin
     inaktiivisuusAjastin = new QTimer(this);
-    inaktiivisuusAjastin->setInterval(10000); //Asetetaan ajastin 10 sekunnin
+    inaktiivisuusAjastin->setInterval(10000); //Asetetaan ajastin 10 sekuntiin
     connect(inaktiivisuusAjastin, QTimer::timeout, this, &tilitapahtumatwindow::aikakatkaisu);
     inaktiivisuusAjastin->start();
 
@@ -50,15 +49,49 @@ void tilitapahtumatwindow::Tilitapahtumatslot()
     QJsonDocument json_doc = QJsonDocument::fromJson(response);
     QJsonArray json_array=json_doc.array();
 
-    QVector<tilitapahtumat> kaikkiTilitapahtumat;
+    //QVector<tilitapahtumat> kaikkitilitapahtumat;
+    kaikkitilitapahtumat.clear();
     for (const QJsonValue &value : json_array) {
         if (value.isObject()) {
             tilitapahtumat tilitapahtuma = tilitapahtumat::mapJson(value.toObject());
-            kaikkiTilitapahtumat.append(tilitapahtuma);
+            kaikkitilitapahtumat.append(tilitapahtuma);
             }
         }
 
-    PäivitäTapahtumat(kaikkiTilitapahtumat);
+    listTilitapahtumat=kaikkitilitapahtumat; // Määrittä sen listan
+    nykyinenIndeksi = 0; //Nollataan indeksi
+    näytäSivu(); // Näyttää ensinmäisen sivun datasta
+    reply->deleteLater();
+}
+
+void tilitapahtumatwindow::näytäSivu()
+{
+    //Näytä data taulukossa
+    qDebug("Näytäsivu");
+    qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
+
+    int end = nykyinenIndeksi + 10;
+
+    qDebug()<<"Listan koko: " << listTilitapahtumat.size();
+    qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
+
+    if (end > listTilitapahtumat.size()) {
+        end = listTilitapahtumat.size();
+    }
+
+    // tämä tai
+
+    // int end = qMin(nykyinenIndeksi + 10, listTilitapahtumat.size());
+
+    qDebug("Lista");
+    qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
+    qDebug()<<"Listan koko: " << listTilitapahtumat.size();
+
+    listTilitapahtumat = listTilitapahtumat.mid(nykyinenIndeksi, 10); // Rajaa listan kymmeneen tilitapahtumaan
+
+    qDebug("Lista part 2");
+    qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
+    qDebug()<<"Listan koko: " << listTilitapahtumat.size();
 
     auto *tableModel = new QStandardItemModel(listTilitapahtumat.size(), 4, this);
     tableModel->setHorizontalHeaderLabels({ tr("tilinumero"), tr("tapahtumat"), tr("summa"), tr("ajankohta") });
@@ -72,19 +105,14 @@ void tilitapahtumatwindow::Tilitapahtumatslot()
     ui->tilitapahtumatTable->setModel(tableModel);
     ui->tilitapahtumatTable->verticalHeader()->setVisible(false);
     ui->tilitapahtumatTable->resizeColumnsToContents();
-    reply->deleteLater();
-}
 
-void tilitapahtumatwindow::PäivitäTapahtumat(const QVector<tilitapahtumat>& kaikkiTilitapahtumat)
-{   // Päivittää näkyvät tilitapahtumat käyttäjän nappien painaluksen perusteella
-    // kaikkiTilitapahtumat Listaa kaikista tilitapahtumista
-    int end = nykyinenIndeksi + 10;
-    if (end > kaikkiTilitapahtumat.size()) {
-        end = kaikkiTilitapahtumat.size();
-    }
-    listTilitapahtumat = QVector<tilitapahtumat>
-    (kaikkiTilitapahtumat.begin() + nykyinenIndeksi,
-    kaikkiTilitapahtumat.begin() + end);
+    qDebug("Kun pöytä on luotu");
+    qDebug()<<"Listan koko: " << listTilitapahtumat.size();
+    qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
+
+    //Rajoittimet, että vasen nappia ei voi painaa vielä, kunnes oikea nappia on ensinmäisenä painettu
+    //ui->btnVasen->setEnabled(nykyinenIndeksi > 0);
+    //ui->btnOikea->setEnabled(nykyinenIndeksi + 10 < listTilitapahtumat.size());
 }
 
 void tilitapahtumatwindow::setToken(const QString &newToken)
@@ -99,28 +127,49 @@ void tilitapahtumatwindow::setIdtili(int newIdtili)
 
 void tilitapahtumatwindow::btnPoistuslot()
 {   // Käyttäjä nappia painatessa poistuu tapahtumat ikkunasta
+
+    qDebug("Poistu");
+
     this->parentWidget()->show();
     this->close();
 }
 
 void tilitapahtumatwindow::btnVasenSlot()
 
-{   //Vähentää seuraavat kymmenen tilitapahtumaa tauluun
+{   //Vähentää seuraavat kymmenen tilitapahtumaa taulusta vähentämällä indeksiä
 
+    qDebug("Vasen nappi");
+    qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
+    qDebug()<<"Listan koko: " << listTilitapahtumat.size();
+
+    nollaaAjastin();
     if (nykyinenIndeksi - 10 >= 0) {
-        nykyinenIndeksi -= 10;
-        PäivitäTapahtumat(kaikkitilitapahtumat);
+        nykyinenIndeksi -= 10; //Pienennä indeksiä
+
+        qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
+
+        näytäSivu();
+
+        qDebug()<<"Listan koko: " << listTilitapahtumat.size();
 
     }
 }
 
 void tilitapahtumatwindow::btnOikeaSlot()
 
-{   //Lisää kymmenen seuraavaa tilitapahtumaan tauluun:
+{   //Lisää kymmenen seuraavaa tilitapahtumaa tauluun nostaen indeksiä
 
-    if (nykyinenIndeksi + 10 <kaikkitilitapahtumat.size()) {
-        nykyinenIndeksi += 10;
-        PäivitäTapahtumat(kaikkitilitapahtumat);
+    qDebug("Oikea nappi");
+    qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
+    qDebug()<<"Listan koko: " << listTilitapahtumat.size();
+
+    nollaaAjastin();
+    if (nykyinenIndeksi + 10 <listTilitapahtumat.size()) {
+        nykyinenIndeksi += 10; // Kasvata indeksiä
+        näytäSivu();
+
+        qDebug()<<"Listan koko: " << listTilitapahtumat.size();
+        qDebug()<<"Indeksi nyt: " << nykyinenIndeksi;
 
     }
 }
