@@ -25,7 +25,6 @@ public:
     void setToken(const QString &newToken);
     void setIdtili(int newIdtili);
     void btnTapahtumatClicked();
-    //void PäivitäTapahtumat(const QVector<tilitapahtumat>& kaikkiTilitapahtumat);
     void näytäSivu();
 
 private slots:
