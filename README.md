@@ -96,7 +96,7 @@ Tämän projektin tarkoitus oli luoda virtuaalinen pankkiautomaatti. Pankkiautom
 - Luo uusi tiedosto nimeltä ".env" group_3/backend kansioon ja lisää sinne: 
    ```
    SQL_SERVER="mysql://netuser:netpass@127.0.0.1:3306/bank_automat"
-   MY_TOKEN=RAf6OUluNGmHPxUHb9fyO+KHqE3U6enB6lPszO7S/4iJA4589GxhJQtYvAwZL3DecMp9eTPDFkKkiAt8ouxByA==
+   MY_TOKEN=[your generated token]
    ```
 
  ### Käyttöönotto:
